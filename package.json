@@ -1,0 +1,38 @@
+{
+  "name": "svelte-shadcn-kickstart",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "generate": "drizzle-kit generate",
+    "migrate": "drizzle-kit migrate",
+    "instrospect": "drizzle-kit introspect"
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-auto": "^3.0.0",
+    "@sveltejs/adapter-vercel": "^5.4.3",
+    "@sveltejs/kit": "^2.0.0",
+    "@sveltejs/vite-plugin-svelte": "^3.0.0",
+    "autoprefixer": "^10.4.20",
+    "drizzle-kit": "^0.24.0",
+    "svelte": "^4.2.7",
+    "tailwindcss": "^3.4.9",
+    "vite": "^5.0.3"
+  },
+  "type": "module",
+  "dependencies": {
+    "@internationalized/date": "^3.5.5",
+    "bits-ui": "^0.21.13",
+    "clsx": "^2.1.1",
+    "drizzle-orm": "^0.33.0",
+    "leaflet": "^1.9.4",
+    "leaflet.markercluster": "^1.5.3",
+    "lucide-svelte": "^0.428.0",
+    "postgres": "^3.4.4",
+    "svelte-radix": "^1.1.0",
+    "tailwind-merge": "^2.5.2",
+    "tailwind-variants": "^0.2.1"
+  }
+}
