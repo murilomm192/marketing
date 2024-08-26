@@ -1,0 +1,131 @@
+import { writable } from 'svelte/store';
+
+export const depara_operações = writable([
+  { comercial: 'COM AM CAP', operação: 'CDD Manaus', cod_cliente: 740, unb: 849 },
+  { comercial: 'COM AM INT', operação: 'Amascol', cod_cliente: 49535, unb: 495352 },
+  { comercial: 'COM AM INT', operação: 'Bramam Itaituba', cod_cliente: 70335, unb: 703354 },
+  { comercial: 'COM AM INT', operação: 'Bramam Parintins', cod_cliente: 70313, unb: 703133 },
+  { comercial: 'COM AM INT', operação: 'CDB - Autazes', cod_cliente: 84384, unb: 843849 },
+  { comercial: 'COM AM INT', operação: 'CDB - Barcelos', cod_cliente: 89672, unb: 896721 },
+  { comercial: 'COM AM INT', operação: 'CDB - Carauari', cod_cliente: 93785, unb: 937850 },
+  { comercial: 'COM AM INT', operação: 'CDB - Careiro', cod_cliente: 89734, unb: 897345 },
+  { comercial: 'COM AM INT', operação: 'CDB - Coari', cod_cliente: 84284, unb: 842842 },
+  { comercial: 'COM AM INT', operação: 'CDB - Itacoatiara', cod_cliente: 95630, unb: 956309 },
+  { comercial: 'COM AM INT', operação: 'CDB - Manacapuru', cod_cliente: 84127, unb: 841277 },
+  { comercial: 'COM AM INT', operação: 'CDB - Manicore', cod_cliente: 84222, unb: 842222 },
+  { comercial: 'COM AM INT', operação: 'CDB - Novo Aripuana', cod_cliente: 89706, unb: 897060 },
+  {
+    comercial: 'COM AM INT',
+    operação: 'CDB - Sao Gabriel da Cachoeira',
+    cod_cliente: 101839,
+    unb: 1018396
+  },
+  { comercial: 'COM AM INT', operação: 'CDB - Tabatinga', cod_cliente: 88019, unb: 880191 },
+  { comercial: 'COM AM INT', operação: 'CDB - Tefe', cod_cliente: 82473, unb: 824739 },
+  { comercial: 'COM AM INT', operação: 'Santabier', cod_cliente: 37646, unb: 376469 },
+  { comercial: 'COM DF', operação: 'CDD Brasilia', cod_cliente: 40, unb: 710 },
+  { comercial: 'COM GO SUDESTE', operação: 'Brasbel', cod_cliente: 73400, unb: 734004 },
+  {
+    comercial: 'COM GO SUDESTE',
+    operação: 'CDB - Alto Paraiso de Goias',
+    cod_cliente: 101156,
+    unb: 101156
+  },
+  {
+    comercial: 'COM GO SUDESTE',
+    operação: 'CDB - Alto Paraiso de Goias',
+    cod_cliente: 101156,
+    unb: 1011561
+  },
+  {
+    comercial: 'COM GO SUDESTE',
+    operação: 'CDB - Alvorada do Norte',
+    cod_cliente: 87855,
+    unb: 878553
+  },
+  {
+    comercial: 'COM GO SUDESTE',
+    operação: 'CDB - Campos Belos',
+    cod_cliente: 87814,
+    unb: 878146
+  },
+  { comercial: 'COM GO SUDESTE', operação: 'CDB - Posse', cod_cliente: 87091, unb: 870919 },
+  { comercial: 'COM GO SUDESTE', operação: 'CDD Cebrasa', cod_cliente: 355, unb: 354 },
+  { comercial: 'COM GO SUDESTE', operação: 'CDD Goiania', cod_cliente: 860, unb: 453 },
+  { comercial: 'COM GO SUDESTE', operação: 'Foco', cod_cliente: 101626, unb: 1016261 },
+  { comercial: 'COM GO SUDESTE', operação: 'Pereira', cod_cliente: 72400, unb: 724009 },
+  { comercial: 'COM GO SUL', operação: 'Dicebel', cod_cliente: 99245, unb: 992453 },
+  { comercial: 'COM GO SUL', operação: 'Lima - Rio Verde', cod_cliente: 98728, unb: 987280 },
+  { comercial: 'COM GO SUL', operação: 'Rossafa', cod_cliente: 112000, unb: 1120000 },
+  { comercial: 'COM GYN', operação: 'Regra AG', cod_cliente: 54264, unb: 542644 },
+  { comercial: 'COM GYN', operação: 'Regra IP', cod_cliente: 60074, unb: 600741 },
+  { comercial: 'COM GYN', operação: 'Regra NA', cod_cliente: 171600, unb: 1716000 },
+  { comercial: 'COM MS', operação: 'Gran Dourados', cod_cliente: 69800, unb: 698008 },
+  { comercial: 'COM MS', operação: 'Ovidio PA', cod_cliente: 10700, unb: 107000 },
+  { comercial: 'COM MS', operação: 'Ovidio TL', cod_cliente: 36038, unb: 360384 },
+  { comercial: 'COM MS', operação: 'Rotele AQ', cod_cliente: 61913, unb: 619132 },
+  { comercial: 'COM MS', operação: 'Rotele CB', cod_cliente: 85789, unb: 857890 },
+  { comercial: 'COM MS', operação: 'Rotele CG', cod_cliente: 132000, unb: 1320009 },
+  { comercial: 'COM MS', operação: 'Rotele CX', cod_cliente: 63785, unb: 637858 },
+  { comercial: 'COM MT Centro', operação: 'CDD Cuiaba', cod_cliente: 872, unb: 455 },
+  { comercial: 'COM MT Centro', operação: 'CDD Rondonopolis', cod_cliente: 139, unb: 111 },
+  { comercial: 'COM MT INT', operação: 'Caceres', cod_cliente: 101703, unb: 1017039 },
+  {
+    comercial: 'COM MT INT',
+    operação: 'CDB - Nova Monte Verde',
+    cod_cliente: 86855,
+    unb: 868558
+  },
+  { comercial: 'COM MT INT', operação: 'Disbenop', cod_cliente: 32352, unb: 323527 },
+  { comercial: 'COM MT INT', operação: 'Disbev', cod_cliente: 87892, unb: 878928 },
+  { comercial: 'COM MT INT', operação: 'Disbev Colíder', cod_cliente: 97075, unb: 970751 },
+  { comercial: 'COM MT Sul', operação: 'CDB - Araputanga', cod_cliente: 87456, unb: 874566 },
+  { comercial: 'COM MT Sul', operação: 'CDB - Colniza', cod_cliente: 89733, unb: 897337 },
+  { comercial: 'COM MT Sul', operação: 'CDB - Comodoro', cod_cliente: 87477, unb: 874779 },
+  { comercial: 'COM MT Sul', operação: 'CDB - Juina', cod_cliente: 82056, unb: 820563 },
+  {
+    comercial: 'COM MT Sul',
+    operação: "CDB - Mirassol D'Oeste",
+    cod_cliente: 86912,
+    unb: 869120
+  },
+  {
+    comercial: 'COM MT Sul',
+    operação: 'CDB - Pontes e Lacerda',
+    cod_cliente: 87457,
+    unb: 874574
+  },
+  {
+    comercial: 'COM MT Sul',
+    operação: 'CDB - Sao Jose dos Quatro Marcos',
+    cod_cliente: 87026,
+    unb: 870269
+  },
+  { comercial: 'COM MT Sul', operação: 'CDB - Sapezal', cod_cliente: 86462, unb: 864625 },
+  { comercial: 'COM MT Sul', operação: 'Cruzeiro', cod_cliente: 113100, unb: 1131001 },
+  { comercial: 'COM MT Sul', operação: 'Disvale', cod_cliente: 61333, unb: 613339 },
+  { comercial: 'COM NO', operação: 'CDB - Apui', cod_cliente: 95278, unb: 952788 },
+  { comercial: 'COM NO', operação: 'CDB - Boca do Acre', cod_cliente: 92013, unb: 920134 },
+  { comercial: 'COM NO', operação: 'CDB - Humaita', cod_cliente: 90521, unb: 905216 },
+  { comercial: 'COM NO', operação: 'Cone Sul', cod_cliente: 158200, unb: 1582003 },
+  {
+    comercial: 'COM NO',
+    operação: 'Cone Sul - RDC Ji Parana',
+    cod_cliente: 100252,
+    unb: 1002520
+  },
+  { comercial: 'COM NO', operação: 'Cone Sul RDC Ariquemes', cod_cliente: 99059, unb: 990590 },
+  { comercial: 'COM NO', operação: 'GP7 NORTE', cod_cliente: 99246, unb: 992461 },
+  { comercial: 'COM NO', operação: 'Jurua CR', cod_cliente: 61367, unb: 613673 },
+  { comercial: 'COM NO', operação: 'Jurua FL', cod_cliente: 61377, unb: 613770 },
+  { comercial: 'COM NO', operação: 'Rondobier', cod_cliente: 82278, unb: 822787 },
+  { comercial: 'COM NO', operação: 'Rondobier', cod_cliente: 99597, unb: 995975 },
+  { comercial: 'COM TOGO Norte', operação: 'Cemar DI', cod_cliente: 59971, unb: 599719 },
+  { comercial: 'COM TOGO Norte', operação: 'Cemar GU', cod_cliente: 186300, unb: 1863002 },
+  { comercial: 'COM TOGO Norte', operação: 'Regra BG', cod_cliente: 60663, unb: 606634 },
+  { comercial: 'COM TOGO Norte', operação: 'Regra BG', cod_cliente: 99612, unb: 996122 },
+  { comercial: 'COM TOGO Norte', operação: 'Regra CE', cod_cliente: 66961, unb: 669610 },
+  { comercial: 'COM TOGO Norte', operação: 'Regra PO', cod_cliente: 66926, unb: 669261 },
+  { comercial: 'COM TOGO Norte', operação: 'Regra UR', cod_cliente: 74179, unb: 741795 },
+  { comercial: 'COM TOGO Norte', operação: 'Temar', cod_cliente: 29537, unb: 295370 }
+]);

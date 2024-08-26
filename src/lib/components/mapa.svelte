@@ -11,8 +11,6 @@
   let mapElement;
   let map;
 
-  export let filter;
-
   onMount(async () => {
     const leaflet = await import("leaflet");
     const { MarkerClusterGroup } = await import("leaflet.markercluster");
@@ -45,7 +43,7 @@
     });
 
     points
-      .filter((row) => row.nome.contains(filter))
+      .filter((row) => row.nome)
       .forEach((point) => {
         let marker = leaflet.marker(point.lngLat, { title: point.nome });
         marker.bindTooltip(

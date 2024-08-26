@@ -20,7 +20,7 @@ const db = drizzle(client);
 
 export const load = (async () => {
 
-  let base = await db.execute(sql`select * from cliente where comercial = 'COM AM CAP' and latitude is not null limit 100`)
+  let base = await db.execute(sql`select * from cliente where comercial = 'COM DF' and latitude is not null limit 1000`)
 
   return {
     ok: 'ok',

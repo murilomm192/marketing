@@ -7,6 +7,7 @@
 	export let weekdayFormat = "short";
 	let className = undefined;
 	export { className as class };
+
 </script>
 
 <CalendarPrimitive.Root

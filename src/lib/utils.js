@@ -46,3 +46,11 @@ export const flyAndScale = (
 		easing: cubicOut
 	};
 };
+
+export function removeDuplicates(key, array) {
+	return array.filter((obj1, i, arr) =>
+	  arr.findIndex(obj2 =>
+		[key].every(key => obj2[key] === obj1[key])
+	  ) === i
+	)
+  }
