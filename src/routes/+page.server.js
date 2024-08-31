@@ -9,6 +9,7 @@ import {
   PUBLIC_SUPABASE_ANON_KEY
 } from '$env/static/public';
 
+
 import { createClient } from '@supabase/supabase-js';
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
@@ -44,6 +45,8 @@ function get_public_url(base, bucket, coluna) {
 export const actions = {
   upload: async ({ request }) => {
     const data = await request.formData();
+
+
 
     const cardapio = data.get('cardapio').name !== '' ? await upload_file(data.get('cardapio'), 'Cardapios') : null;
     const fachada = data.get('fachada').name !== '' ? await upload_file(data.get('fachada'), 'Fachadas') : null;

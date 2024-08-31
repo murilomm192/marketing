@@ -22,6 +22,8 @@
   import { depara_operações } from "$lib/stores";
   import { removeDuplicates } from "$lib/utils";
 
+  import Compressor from "compressorjs";
+
   import {
     DateFormatter,
     getLocalTimeZone,
@@ -31,6 +33,49 @@
   let dados = [];
 
   const depara = depara_operações.subscribe((value) => (dados = value));
+
+  let files;
+  let arquivos_cardapio;
+  let arquivos_fachada;
+  let arquivos_interior;
+
+  function compressImage(e) {
+    const filesFromElement = e.target.files;
+
+    if (!filesFromElement) return;
+
+    for (let i = 0; i < filesFromElement.length; i++) {
+      new Compressor(filesFromElement[i], {
+        quality: 0.6,
+        height: 1024,
+        strict: true,
+        success(result) {
+          let file;
+          let name = result.name;
+          let type = result.type;
+
+          if (result instanceof Blob) {
+            file = new File([result], "compressed_" + name, { type });
+          } else {
+            file = result;
+
+          }
+
+          const dt = new DataTransfer();
+          dt.items.add(file);
+          files = dt.files;
+
+          console.log(files[0]);
+          arquivos_fachada = dt.files;
+          console.log(arquivos_fachada);
+        },
+
+        error(err) {
+          console.log(err.message);
+        },
+      });
+    }
+  }
 
   //adicionar skol, stella e um agrupado da concorrencia e própria e adicionar SOPI
   let materiais = [
@@ -168,11 +213,6 @@
   let comercial_selecionado;
   let operação_selecionada;
 
-  let arquivos_cardapio = null;
-  let arquivos_fachada = null;
-  let arquivos_interior = null;
-
-  //adicionar foto da área interna
   const handleChange_cardapio = (event) => {
     const file = event.target.files[0];
     arquivos_cardapio = file;
@@ -248,7 +288,8 @@
                 accept="image/*"
                 capture="environment"
                 hidden
-                on:change={handleChange_fachada}
+                on:change={compressImage}
+                bind:files={arquivos_fachada}
               />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -356,3 +397,5 @@
     </Card.Root>
   </div>
 </form>
+
+<pre>{JSON.stringify(arquivos_fachada, null, 2)}</pre>
