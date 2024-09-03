@@ -33,6 +33,7 @@
     "cmdk-sv": "^0.0.18",
     "drizzle-orm": "^0.33.0",
     "leaflet": "^1.9.4",
+    "leaflet-defaulticon-compatibility": "^0.1.2",
     "leaflet.markercluster": "^1.5.3",
     "lucide-svelte": "^0.428.0",
     "postgres": "^3.4.4",
