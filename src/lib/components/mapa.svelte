@@ -83,6 +83,7 @@
 </main>
 
 <style>
+  @import "leaflet/dist/leaflet.css";
   @import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css";
   @import "leaflet.markercluster/dist/MarkerCluster.Default.css";
   main div {
