@@ -4,6 +4,8 @@
 
   export let points;
 
+  export let selected_pdv;
+
   function randomIntFromInterval(min, max) {
     // min and max included
     return Math.random() * (max - min + 1) + min;
@@ -14,6 +16,10 @@
   onMount(async () => {
     const leaflet = await import("leaflet");
     const { MarkerClusterGroup } = await import("leaflet.markercluster");
+
+    function select_marker(e) {
+      selected_pdv = e.layer.options.chave;
+    }
 
     map = leaflet.map(mapElement).setView(
       [
@@ -45,17 +51,21 @@
     points
       .filter((row) => row.nome)
       .forEach((point) => {
-        let marker = leaflet.marker(point.lngLat, { title: point.nome });
+        let marker = leaflet.marker(point.lngLat, {
+          title: point.nome,
+          chave: point.chave,
+          segmento: point.segmento,
+        });
         marker.bindTooltip(
           point.nome +
             "<br>" +
             point.segmento +
             "<br>" +
             "<img src='" +
-            `https://picsum.photos/200?random=${Math.floor(Math.random() * 10) + 1}` +
-            "'/>",
+            point.fachada +
+            "' h='200' w='200'/>",
         );
-        markers.addLayer(marker);
+        markers.addLayer(marker).on("click", select_marker);
       });
     map.addLayer(markers);
   });
@@ -78,7 +88,7 @@
   main div {
     position: fixed;
     top: 0;
-    left: 25%;
+    left: 33.33%;
     bottom: 0;
     right: 0;
     overflow: auto;

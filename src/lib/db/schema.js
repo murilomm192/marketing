@@ -1,4 +1,4 @@
-import { pgTable, varchar, serial, integer, doublePrecision, timestamp, json } from "drizzle-orm/pg-core"
+import { pgTable, varchar, primaryKey, serial, integer, doublePrecision, timestamp, json } from "drizzle-orm/pg-core"
 import { sql } from "drizzle-orm"
 
 export const cliente = pgTable("cliente", {
@@ -35,3 +35,26 @@ export const coleta_pdv = pgTable("coleta_pdv", {
   interior: varchar('interior'),
   materiais: json('materiais')
 });
+
+export const volume = pgTable('volume', {
+  chave: varchar('chave').notNull(),
+  ano: integer('ano').notNull(),
+  mes: integer('mes').notNull(),
+  cerveja: doublePrecision('cerveja'),
+  nab: doublePrecision('nab'),
+  rgb: doublePrecision('rgb'),
+  brahma: doublePrecision('brahma'),
+  spaten: doublePrecision('spaten'),
+  corona: doublePrecision('corona'),
+  bud: doublePrecision('bud'),
+  stella: doublePrecision('stella'),
+  skol: doublePrecision('skol'),
+  antarctica: doublePrecision('antarctica'),
+  guarana: doublePrecision('guarana'),
+  beats: doublePrecision('beats'),
+}, (table) => {
+  return {
+    pk: primaryKey({ columns: [table.chave, table.ano, table.mes] }),
+  };
+})
+

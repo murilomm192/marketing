@@ -1,0 +1,1 @@
+ALTER TABLE "volume" ADD CONSTRAINT "volume_chave_ano_mes_pk" PRIMARY KEY("chave","ano","mes");
