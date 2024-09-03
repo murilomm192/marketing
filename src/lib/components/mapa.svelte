@@ -5,7 +5,6 @@
   export let points;
 
   export let selected_pdv;
-  import icon from "leaflet/dist/images/marker-icon.png";
 
   function randomIntFromInterval(min, max) {
     // min and max included
@@ -17,7 +16,7 @@
   onMount(async () => {
     const leaflet = await import("leaflet");
     const { MarkerClusterGroup } = await import("leaflet.markercluster");
-
+    const icon = leaflet.icon({ iconUrl: "../src/lib/assets/marker-icon.png" });
     function select_marker(e) {
       selected_pdv = e.layer.options.chave;
     }
@@ -53,7 +52,7 @@
       .filter((row) => row.nome)
       .forEach((point) => {
         let marker = leaflet.marker(point.lngLat, {
-          iconUrl: icon,
+          icon: icon,
           title: point.nome,
           chave: point.chave,
           segmento: point.segmento,
@@ -86,7 +85,6 @@
 
 <style>
   @import "leaflet/dist/leaflet.css";
-  @import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
   @import "leaflet.markercluster/dist/MarkerCluster.Default.css";
   main div {
     position: fixed;
