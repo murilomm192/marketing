@@ -16,7 +16,7 @@
   onMount(async () => {
     const leaflet = await import("leaflet");
     const { MarkerClusterGroup } = await import("leaflet.markercluster");
-    const icon = leaflet.icon({ iconUrl: "../src/lib/assets/corona.png" });
+    const icon = leaflet.icon({ iconUrl: "$lib/assets/market-icon-2x.png" });
     function select_marker(e) {
       selected_pdv = e.layer.options.chave;
     }
