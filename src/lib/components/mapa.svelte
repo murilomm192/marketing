@@ -1,6 +1,7 @@
 <script>
   import { onMount, onDestroy } from "svelte";
   import { Button } from "$lib/components/ui/button/index.js";
+  import leaflet_icon from "$lib/assets/marker-icon.png";
 
   export let points;
 
@@ -16,7 +17,7 @@
   onMount(async () => {
     const leaflet = await import("leaflet");
     const { MarkerClusterGroup } = await import("leaflet.markercluster");
-    const icon = leaflet.icon({ iconUrl: "$lib/assets/market-icon-2x.png" });
+    const icon = leaflet.icon({ iconUrl: leaflet_icon });
     function select_marker(e) {
       selected_pdv = e.layer.options.chave;
     }
