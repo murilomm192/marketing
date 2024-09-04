@@ -16,6 +16,7 @@
   onMount(async () => {
     const leaflet = await import("leaflet");
     const { MarkerClusterGroup } = await import("leaflet.markercluster");
+    const icon = leaflet.icon({ iconUrl: "../src/lib/assets/marker-icon-2x.png" });
     function select_marker(e) {
       selected_pdv = e.layer.options.chave;
     }
@@ -51,6 +52,7 @@
       .filter((row) => row.nome)
       .forEach((point) => {
         let marker = leaflet.marker(point.lngLat, {
+          icon: icon,
           title: point.nome,
           chave: point.chave,
           segmento: point.segmento,
