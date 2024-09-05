@@ -1,6 +1,5 @@
 <script>
   import * as Card from "$lib/components/ui/card";
-  import Carrousel from "$lib/components/carrousel.svelte";
   import { Input } from "$lib/components/ui/input";
   import { Button } from "$lib/components/ui/button";
   import { Label } from "$lib/components/ui/label";
@@ -22,6 +21,8 @@
   import { depara_operações } from "$lib/stores";
   import { removeDuplicates } from "$lib/utils";
 
+  import Compressor from "compressorjs";
+
   import {
     DateFormatter,
     getLocalTimeZone,
@@ -31,6 +32,50 @@
   let dados = [];
 
   const depara = depara_operações.subscribe((value) => (dados = value));
+
+  let arquivos_cardapio;
+  let arquivos_fachada;
+  let arquivos_interior;
+
+  function compressImage(e) {
+    const filesFromElement = e.target.files;
+
+    if (!filesFromElement) return;
+
+    for (let i = 0; i < filesFromElement.length; i++) {
+      new Compressor(filesFromElement[i], {
+        quality: 0.6,
+        height: 1024,
+        strict: true,
+        success(result) {
+          let file;
+          let name = result.name;
+          let type = result.type;
+
+          if (result instanceof Blob) {
+            file = new File([result], "compressed_" + name, { type });
+          } else {
+            file = result;
+          }
+
+          const dt = new DataTransfer();
+          dt.items.add(file);
+
+          if (filesFromElement) {
+            for (let i = 1; i < filesFromElement.length; i++) {
+              dt.items.add(filesFromElement[i]);
+            }
+          }
+
+          e.target.files = dt.files;
+        },
+
+        error(err) {
+          console.log(err.message);
+        },
+      });
+    }
+  }
 
   //adicionar skol, stella e um agrupado da concorrencia e própria e adicionar SOPI
   let materiais = [
@@ -146,6 +191,12 @@
     },
   ];
 
+  let name;
+  let data_visita = today(getLocalTimeZone());
+  let PDV;
+  let comercial_selecionado;
+  let operação_selecionada;
+
   $: comerciais = removeDuplicates("comercial", dados).map((row) => {
     return {
       value: row.comercial,
@@ -161,30 +212,6 @@
         name: row.operação,
       };
     });
-
-  let name;
-  let data_visita = today(getLocalTimeZone());
-  let PDV;
-  let comercial_selecionado;
-  let operação_selecionada;
-
-  let arquivos_cardapio = null;
-  let arquivos_fachada = null;
-  let arquivos_interior = null;
-
-  //adicionar foto da área interna
-  const handleChange_cardapio = (event) => {
-    const file = event.target.files[0];
-    arquivos_cardapio = file;
-  };
-  const handleChange_fachada = (event) => {
-    const file = event.target.files[0];
-    arquivos_fachada = file;
-  };
-  const handleChange_interior = (event) => {
-    const file = event.target.files[0];
-    arquivos_interior = file;
-  };
 
   $: dados_finais = JSON.stringify({
     nome: name,
@@ -248,7 +275,8 @@
                 accept="image/*"
                 capture="environment"
                 hidden
-                on:change={handleChange_fachada}
+                bind:files={arquivos_fachada}
+                on:change={compressImage}
               />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -285,7 +313,8 @@
                 accept="image/*"
                 capture="environment"
                 hidden
-                on:change={handleChange_cardapio}
+                bind:files={arquivos_cardapio}
+                on:change={compressImage}
               />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -320,7 +349,8 @@
                 accept="image/*"
                 capture="environment"
                 hidden
-                on:change={handleChange_interior}
+                bind:value={arquivos_interior}
+                on:change={compressImage}
               />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -356,3 +386,5 @@
     </Card.Root>
   </div>
 </form>
+
+<pre>{JSON.stringify(operações, null, 2)}</pre>

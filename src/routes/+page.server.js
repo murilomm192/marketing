@@ -9,6 +9,7 @@ import {
   PUBLIC_SUPABASE_ANON_KEY
 } from '$env/static/public';
 
+
 import { createClient } from '@supabase/supabase-js';
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
