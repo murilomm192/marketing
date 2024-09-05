@@ -5,13 +5,11 @@
 
   // Function to format a date string
   function formatDate(dateString) {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
   }
 </script>
 
@@ -21,25 +19,23 @@
     <Table>
       <TableHeader>
         <TableRow class="bg-gray-100">
-          <TableHead class="py-3 px-6 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">ID</TableHead>
-          <TableHead class="py-3 px-6 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Chave</TableHead>
-          <TableHead class="py-3 px-6 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Nome Usuário</TableHead>
-          <TableHead class="py-3 px-6 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Data Visita</TableHead>
-          <TableHead class="py-3 px-6 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Cod PDV</TableHead>
-          <TableHead class="py-3 px-6 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Comercial</TableHead>
-          <TableHead class="py-3 px-6 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Operação</TableHead>
+          {#each ['ID', 'Chave', 'Nome Usuário', 'Data Visita', 'Cod PDV', 'Comercial', 'Operação'] as header}
+            <TableHead class="py-3 px-6 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">{header}</TableHead>
+          {/each}
         </TableRow>
       </TableHeader>
       <TableBody>
         {#each data.data as row, i}
           <TableRow class="hover:bg-gray-50 {i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}">
-            <TableCell class="py-4 px-6 text-sm text-gray-900">{row.id}</TableCell>
-            <TableCell class="py-4 px-6 text-sm text-gray-900">{row.chave}</TableCell>
-            <TableCell class="py-4 px-6 text-sm text-gray-900">{row.nome_usuario}</TableCell>
-            <TableCell class="py-4 px-6 text-sm text-gray-900">{formatDate(row.data_visita)}</TableCell>
-            <TableCell class="py-4 px-6 text-sm text-gray-900">{row.cod_pdv}</TableCell>
-            <TableCell class="py-4 px-6 text-sm text-gray-900">{row.comercial}</TableCell>
-            <TableCell class="py-4 px-6 text-sm text-gray-900">{row.operação}</TableCell>
+            {#each ['id', 'chave', 'nome_usuario', 'data_visita', 'cod_pdv', 'comercial', 'operação'] as field}
+              <TableCell class="py-4 px-6 text-sm text-gray-900">
+                {#if field === 'data_visita'}
+                  {formatDate(row[field])}
+                {:else}
+                  {row[field]}
+                {/if}
+              </TableCell>
+            {/each}
           </TableRow>
         {/each}
       </TableBody>
