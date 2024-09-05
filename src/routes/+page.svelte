@@ -7,6 +7,8 @@
   import Dropdown from "$lib/components/dropdown.svelte";
   import DataTable from "$lib/components/TableMarcas.svelte";
 
+  import Compressor from "compressorjs";
+
   import brahma from "$lib/assets/brahma.png";
   import beats from "$lib/assets/beats.png";
   import bud from "$lib/assets/bud.png";
@@ -20,8 +22,6 @@
 
   import { depara_operações } from "$lib/stores";
   import { removeDuplicates } from "$lib/utils";
-
-  import Compressor from "compressorjs";
 
   import {
     DateFormatter,
