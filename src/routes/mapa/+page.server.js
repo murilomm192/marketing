@@ -2,28 +2,15 @@
 import { drizzle } from 'drizzle-orm/postgres-js';
 import { sql, eq, ilike, notInArray, inArray } from 'drizzle-orm';
 import postgres from 'postgres';
-import {
-  PUBLIC_DATABASE_URL,
-  PUBLIC_SUPABASE_URL,
-  PUBLIC_SUPABASE_ANON_KEY,
-  GOOGLE_API_KEY
-} from '$env/static/public';
 
-import { createClient } from '@supabase/supabase-js';
+import { db, supabase } from '$lib/db';
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-
-const supabase = createClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY);
-
-const connectionString = PUBLIC_DATABASE_URL;
-const client = postgres(connectionString);
-const db = drizzle(client);
 
 function get_public_url(base, bucket, column) {
   const baseurl = base.map(row => ({ ...row, [column]: supabase.storage.from(bucket).getPublicUrl(row[column]).data.publicUrl }))
   return baseurl
 }
-
 
 export const load = (async () => {
 
