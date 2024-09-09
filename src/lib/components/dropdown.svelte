@@ -35,7 +35,7 @@
     let open = false;
     export let value = "";
    
-    $: selectedValue = values.find((f) => f.value === value)?.name ?? `Qual ${nome_categoria}?`;
+    $: selectedValue = values.find((f) => f.value === value)?.name ?? `${nome_categoria}`;
    
     // We want to refocus the trigger button when the user selects
     // an item from the list so users can continue navigating the

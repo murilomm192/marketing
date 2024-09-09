@@ -29,7 +29,9 @@
 
   $: volume_pdv =
     selected_pdv != undefined
-      ? data.volumes.filter((row) => row.chave == selected_pdv)
+      ? data.volumes
+          .filter((row) => row.chave == selected_pdv)
+          .sort((a, b) => (a.mes > b.mes ? 1 : -1))
       : [];
 
   let cestas = [
@@ -59,11 +61,11 @@
         cesta_selecionada.charAt(0).toUpperCase() + cesta_selecionada.slice(1),
     },
     grid: {
-    left: '10%',
-    right: '10%',
-    top: '25%',
-    bottom: 0
-  },
+      left: "10%",
+      right: "10%",
+      top: "25%",
+      bottom: "10%",
+    },
     xAxis: {
       type: "category",
       data: volume_pdv.map((row) => row.mes),
@@ -107,7 +109,7 @@
     .filter(
       (obj) =>
         Object.values(obj.qtd_materiais).reduce((acc, curr) => acc + curr, 0) >
-        0
+        0,
     )
     .map((row) => ({
       Marca: row.marca,
@@ -134,7 +136,7 @@
         <h1 class="text-center font-bold text-slate-200">
           {pdv.nome}
         </h1>
-        <p class="text-center text-slate-200">{''}</p>
+        <p class="text-center text-slate-200">{""}</p>
       </div>
       <Card class="bg-white bg-opacity-90 p-4 text-center">
         <p><span class="font-bold">Chave UNB_PDV: </span>{pdv.chave}</p>
@@ -144,21 +146,23 @@
         <p><span class="font-bold">Segmento NGE: </span>{pdv.segmento_nge}</p>
         <p>
           <span class="font-bold">Data Visita: </span>{new Date(
-            pdv.data_visita
+            pdv.data_visita,
           ).toLocaleDateString("pt-BR")}
         </p>
         <p>
           <span class="font-bold">Data Cadastro: </span>{new Date(
-            pdv.data_cadastro
+            pdv.data_cadastro,
           ).toLocaleDateString("pt-BR")}
         </p>
         <p>
           <span class="font-bold">Última Compra: </span>{new Date(
-            pdv.ultima_compra
+            pdv.ultima_compra,
           ).toLocaleDateString("pt-BR")}
         </p>
-        
-        <Button class="my-4" href={"/pdv/" + ponto_clicado.chave}>Ver mais detalhes do PDV</Button>
+
+        <Button class="my-4" href={"/pdv/" + ponto_clicado.chave}
+          >Ver mais detalhes do PDV</Button
+        >
       </Card>
 
       <Card class="bg-white bg-opacity-90 p-4">

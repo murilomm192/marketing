@@ -6,7 +6,7 @@
   export let data;
 </script>
 
-<div class="overflow-x-scroll border-collapse w-full">
+<div class="{$$restProps.class || "overflow-x-scroll border-collapse w-full"}">
   <div class="sm:-mx-6 lg:-mx-8">
     <div class="py-2 inline-block sm:px-6 lg:px-8">
       <div class="">
@@ -16,7 +16,7 @@
               {#each Object.keys(data[0]) as key}
                 <th
                   scope="col"
-                  class="text-sm text-gray-900 px-1 py-2 text-center"
+                  class="text-sm text-gray-900 px-1 py-2 text-center min-w-[80px]"
                 >
                   {key}
                 </th>
