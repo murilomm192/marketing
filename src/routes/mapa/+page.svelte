@@ -6,6 +6,7 @@
   import Dropdown from "$lib/components/dropdown.svelte";
   import { Label } from "$lib/components/ui/label";
   import TableMapa from "$lib/components/tableMapa.svelte";
+  import { Card } from "$lib/components/ui/card";
 
   export let data;
 
@@ -57,6 +58,12 @@
       subtext:
         cesta_selecionada.charAt(0).toUpperCase() + cesta_selecionada.slice(1),
     },
+    grid: {
+    left: '10%',
+    right: '10%',
+    top: '25%',
+    bottom: 0
+  },
     xAxis: {
       type: "category",
       data: volume_pdv.map((row) => row.mes),
@@ -100,7 +107,7 @@
     .filter(
       (obj) =>
         Object.values(obj.qtd_materiais).reduce((acc, curr) => acc + curr, 0) >
-        0,
+        0
     )
     .map((row) => ({
       Marca: row.marca,
@@ -110,16 +117,26 @@
       Ombrelone: row.qtd_materiais["Ombrelone"],
       Luminoso: row.qtd_materiais["Luminoso"],
     }));
+
+  let detalhes_google;
 </script>
 
-<div class=" w-full flex">
-  <div class="w-1/3 text-center">
+<div class="w-full h-screen relative">
+  <div class="w-full h-full absolute top-0 left-0 z-0">
+    <Mapa {points} bind:selected_pdv />
+  </div>
+
+  <div
+    class="absolute top-0 left-0 z-10 w-1/3 max-h-screen overflow-y-auto bg-slate-200 space-y-2 p-2"
+  >
     {#if selected_pdv}
-      <h1 class="text-center font-bold bg-blue-700 text-slate-200">
-        {pdv.nome}
-      </h1>
-      <p class="text-center bg-blue-700 text-slate-200">nome google</p>
-      <div class="text-center py-1">
+      <div class="bg-blue-700 rounded-lg">
+        <h1 class="text-center font-bold text-slate-200">
+          {pdv.nome}
+        </h1>
+        <p class="text-center text-slate-200">{''}</p>
+      </div>
+      <Card class="bg-white bg-opacity-90 p-4">
         <p><span class="font-bold">Chave UNB_PDV: </span>{pdv.chave}</p>
         <p>
           <span class="font-bold">Segmentação Primária: </span>{pdv.segmento}
@@ -127,49 +144,54 @@
         <p><span class="font-bold">Segmento NGE: </span>{pdv.segmento_nge}</p>
         <p>
           <span class="font-bold">Data Visita: </span>{new Date(
-            pdv.data_visita,
+            pdv.data_visita
           ).toLocaleDateString("pt-BR")}
         </p>
         <p>
           <span class="font-bold">Data Cadastro: </span>{new Date(
-            pdv.data_cadastro,
+            pdv.data_cadastro
           ).toLocaleDateString("pt-BR")}
         </p>
         <p>
           <span class="font-bold">Última Compra: </span>{new Date(
-            pdv.ultima_compra,
+            pdv.ultima_compra
           ).toLocaleDateString("pt-BR")}
         </p>
-      </div>
+      </Card>
 
-      <div class="my-2">
-        <Label
-          ><Dropdown
-            values={cestas}
-            nome_categoria="Cesta"
-            bind:value={cesta_selecionada}
-          /></Label
-        >
-      </div>
-      <div class="h-[230px]">
-        <BarChart {options} />
-      </div>
-      Materiais
-      <div class="px-2">
-        <TableMapa bind:data={materiais_pdv} />
-      </div>
-      Imagens
-      <div class="max-w-1/3 items-center align-middle">
-        <Carrousel
-          class=""
-          images={[pdv.fachada, pdv.cardapio, pdv.interior]}
-        />
-      </div>
+      <Card class="bg-white bg-opacity-90 p-4">
+        <div class="my-2 mb-2">
+          <Label
+            >Cesta: <Dropdown
+              values={cestas}
+              nome_categoria="Cesta"
+              bind:value={cesta_selecionada}
+            /></Label
+          >
+        </div>
+        <div class="h-[200px]">
+          <BarChart {options} />
+        </div>
+      </Card>
+
+      <Card class="bg-white bg-opacity-90 p-4">
+        <h2 class="font-bold mt-4">Materiais</h2>
+        <div class="px-2">
+          <TableMapa bind:data={materiais_pdv} />
+        </div>
+      </Card>
+
+      <Card class="bg-white bg-opacity-90 p-4">
+        <h2 class="font-bold mt-4">Imagens</h2>
+        <div class="max-w-full items-center align-middle">
+          <Carrousel
+            class=""
+            images={[pdv.fachada, pdv.cardapio, pdv.interior]}
+          />
+        </div>
+      </Card>
     {:else if selected_pdv === undefined}
-      selecione o PDV
+      <p class="text-center">Selecione um PDV no mapa</p>
     {/if}
-  </div>
-  <div class="w-2/3 z-10">
-    <Mapa {points} bind:selected_pdv />
   </div>
 </div>

@@ -225,8 +225,8 @@
 
 <form method="POST" action="?/upload" enctype="multipart/form-data">
   <input type="hidden" name="dados" bind:value={dados_finais} />
-  <div class="flex m-6 font-bold justify-center">
-    <Card.Root class="w-2/3">
+  <div class="flex m-6 font-bold justify-center bg-red-200">
+    <Card.Root class="sm:w-2/3 w-full">
       <Card.Header>
         <Card.Title>Levantamento PDVs</Card.Title>
         <Card.Description
@@ -300,7 +300,7 @@
               <label for="actual-btn-fachada" class="font-normal text-sm"
                 >{arquivos_fachada
                   ? arquivos_fachada.name
-                  : "Tire foto da fachada"}</label
+                  : "Fachada"}</label
               >
             </div>
             <div
@@ -336,7 +336,7 @@
               <label for="actual-btn-cardapio" class="font-normal text-sm"
                 >{arquivos_cardapio
                   ? arquivos_cardapio.name
-                  : "Tire foto do Cardápio"}</label
+                  : "Cardápio"}</label
               >
             </div>
             <div
@@ -372,7 +372,7 @@
               <label for="actual-btn-interior" class="font-normal text-sm"
                 >{arquivos_interior
                   ? arquivos_interior.name
-                  : "Tire foto do Interior do PDV"}</label
+                  : "Interior"}</label
               >
             </div>
           </div>
@@ -386,5 +386,3 @@
     </Card.Root>
   </div>
 </form>
-
-<pre>{JSON.stringify(operações, null, 2)}</pre>
