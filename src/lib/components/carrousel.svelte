@@ -47,10 +47,4 @@
   .next {
     right: 10px;
   }
-
-  @media (max-width: 768px) {
-    .carousel {
-      max-width: 100%;
-    }
-  }
 </style>
