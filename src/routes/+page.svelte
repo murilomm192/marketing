@@ -225,7 +225,7 @@
 
 <form method="POST" action="?/upload" enctype="multipart/form-data">
   <input type="hidden" name="dados" bind:value={dados_finais} />
-  <div class="flex m-6 font-bold justify-center">
+  <div class="flex sm:m-6 m-1 font-bold justify-center">
     <Card.Root class="sm:w-2/3 w-full">
       <Card.Header>
         <Card.Title>Levantamento PDVs</Card.Title>
