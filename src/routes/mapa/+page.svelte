@@ -136,7 +136,7 @@
         </h1>
         <p class="text-center text-slate-200">{''}</p>
       </div>
-      <Card class="bg-white bg-opacity-90 p-4">
+      <Card class="bg-white bg-opacity-90 p-4 text-center">
         <p><span class="font-bold">Chave UNB_PDV: </span>{pdv.chave}</p>
         <p>
           <span class="font-bold">Segmentação Primária: </span>{pdv.segmento}
@@ -157,6 +157,8 @@
             pdv.ultima_compra
           ).toLocaleDateString("pt-BR")}
         </p>
+        
+        <Button class="my-4" href={"/pdv/" + ponto_clicado.chave}>Ver mais detalhes do PDV</Button>
       </Card>
 
       <Card class="bg-white bg-opacity-90 p-4">

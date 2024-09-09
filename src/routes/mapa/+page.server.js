@@ -31,16 +31,15 @@ function get_public_url(base, bucket, column) {
 }
 
 export const load = async () => {
-
   let base = await db.execute(sql`
-  select *
-  from coleta_pdv as c join cliente as pdv
+  select 
+  * from coleta_pdv as c join cliente as pdv
   on c.chave = pdv.chave
-  where pdv.latitude is not null order by random() limit 1000`);
+  where pdv.latitude is not null order by c.data_visita desc limit 1000`);
 
   let volumes = await db.execute(sql`
 select 
-  v.chave,
+  DISTINCT c.chave,
   v.ano,
   v.mes,
   coalesce(v.cerveja, 0) as cerveja,
@@ -74,7 +73,9 @@ left join volume as v on c.chave = v.chave
 
   return {
     ok: "ok",
-    result: base,
-    volumes
+    result: base.filter((obj1, i, arr) => 
+      arr.findIndex(obj2 => (obj2.chave === obj1.chave)) === i
+    ),
+    volumes,
   };
 };

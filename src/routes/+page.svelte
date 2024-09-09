@@ -380,7 +380,7 @@
           <div class="sm:col-span-2"><DataTable bind:data={materiais} /></div>
         </div>
       </Card.Content>
-      <Card.Footer>
+      <Card.Footer class="flex justify-between">
         <Button type="submit"><Label>Enviar</Label></Button>
       </Card.Footer>
     </Card.Root>
