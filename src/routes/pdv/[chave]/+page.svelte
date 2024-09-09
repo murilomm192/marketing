@@ -16,7 +16,7 @@
     CardTitle,
   } from "$lib/components/ui/card";
 
-  import { ChevronLeft } from "lucide-svelte";
+  import { ChevronLeft, Star, Receipt } from "lucide-svelte";
   import { LegendPlainComponent } from "echarts/components";
 
   let cesta_selecionada = "cerveja";
@@ -91,7 +91,7 @@
     },
   ];
 
-  $: volume_pdv = $page.data.volumes.sort((a, b) => (a.mes > b.mes ? 1 : -1))
+  $: volume_pdv = $page.data.volumes.sort((a, b) => (a.mes > b.mes ? 1 : -1));
 
   $: options = {
     title: {
@@ -146,36 +146,59 @@
   >
 </div>
 
-<div class=" grid grid-cols-2 grid-rows-3 p-0.5 ">
+<div class=" grid grid-cols-2 grid-rows-3 p-0.5">
   <Card class="bg-white bg-opacity-90 p-2 m-0.5">
-    <div class="px-1">
-      <p class="text-center text-slate-200">{""}</p>
-      <p>
-        <span class="font-bold">Chave UNB_PDV: </span>{visita_selecionada.chave}
-      </p>
-      <p>
-        <span class="font-bold"
-          >Segmentação Primária:
-        </span>{visita_selecionada["segmentação_primária"]}
-      </p>
-      <p>
-        <span class="font-bold">Segmento NGE: </span>{visita_selecionada.NGE}
-      </p>
-      <p>
-        <span class="font-bold">Data Visita: </span>{new Date(
-          visita_selecionada.data_visita,
-        ).toLocaleDateString("pt-BR")}
-      </p>
-      <p>
-        <span class="font-bold">Data Cadastro: </span>{new Date(
-          visita_selecionada.data_cadastro,
-        ).toLocaleDateString("pt-BR")}
-      </p>
-      <p>
-        <span class="font-bold">Última Compra: </span>{new Date(
-          visita_selecionada.ultima_compra,
-        ).toLocaleDateString("pt-BR")}
-      </p>
+    <div class="grid grid-cols-2">
+      <div class="px-1">
+        <p class="text-center text-slate-200">{""}</p>
+        <p>
+          <span class="font-bold"
+            >Chave UNB_PDV:
+          </span>{visita_selecionada.chave}
+        </p>
+        <p>
+          <span class="font-bold"
+            >Segmentação Primária:
+          </span>{visita_selecionada["segmentação_primária"]}
+        </p>
+        <p>
+          <span class="font-bold">Segmento NGE: </span>{visita_selecionada.NGE}
+        </p>
+        <p>
+          <span class="font-bold">Data Visita: </span>{new Date(
+            visita_selecionada.data_visita,
+          ).toLocaleDateString("pt-BR")}
+        </p>
+        <p>
+          <span class="font-bold">Data Cadastro: </span>{new Date(
+            visita_selecionada.data_cadastro,
+          ).toLocaleDateString("pt-BR")}
+        </p>
+        <p>
+          <span class="font-bold">Última Compra: </span>{new Date(
+            visita_selecionada.ultima_compra,
+          ).toLocaleDateString("pt-BR")}
+        </p>
+      </div>
+
+      <div>
+        <p>
+          <span class="font-bold">Nome Google: </span>{$page.data.google.nome}
+        </p>
+        <div class="flex items-center">
+        <p>
+        <span class="font-bold">Rating Avalições: </span> {$page.data.google.rating} estrelas com {$page.data.google.n_reviews} avaliações</p>
+      </div>
+        <p>
+          <span class="font-bold text-wrap w-full"
+            >Tipo Estabelecimento:
+          </span>{$page.data.google.tipo_estabelecimento}
+        </p>
+        <p>
+          <span class="font-bold text-wrap w-full">Faixa de Preço: </span>{$page
+            .data.google.preço ? "$".repeat($page.data.google.preço) : "Não Informado"}
+        </p>
+      </div>
     </div>
   </Card>
   <Card class="bg-white bg-opacity-90 p-2 row-span-3 m-0.5 space-y-2">
@@ -193,7 +216,7 @@
       </div>
     </div>
     <h2 class="font-bold">Materiais</h2>
-    <TableMapa bind:data={materiais_pdv} class="overflow-clip"/>
+    <TableMapa bind:data={materiais_pdv} class="overflow-clip" />
   </Card>
   <Card class="bg-white bg-opacity-90 p-1 row-span-2 m-0.5">
     <div class="px-2">
@@ -218,12 +241,10 @@
                   height={300}
                 />
               </div>
-              
             </figure>
           {/each}
         </div>
       </ScrollArea>
     </div>
   </Card>
-  
 </div>
