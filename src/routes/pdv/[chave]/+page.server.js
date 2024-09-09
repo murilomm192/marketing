@@ -1,5 +1,5 @@
 import { drizzle } from "drizzle-orm/postgres-js";
-import { sql, eq, ilike, notInArray, inArray, ConsoleLogWriter } from "drizzle-orm";
+import { sql, eq, ilike, notInArray, inArray } from "drizzle-orm";
 import postgres from "postgres";
 import { page } from "$app/stores";
 
@@ -13,7 +13,6 @@ async function get_detalhes(latitude, longitude, nome_fantasia) {
   );
   const dados = await response.json();
   const resultados = await dados.results[0];
-  console.log(dados);
   if (resultados === undefined) {
     return {
       nome: 'Não encontrado',
