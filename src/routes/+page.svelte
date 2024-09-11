@@ -19,6 +19,11 @@
   import skol from "$lib/assets/skol.png";
   import concorrencia from "$lib/assets/concorrencia.png";
   import proprio from "$lib/assets/proprio.png";
+  import antarctica from "$lib/assets/antarctica.png";
+  import bdm from "$lib/assets/bdm.png";
+  import bohemia from "$lib/assets/bohemia.png";
+  import original from "$lib/assets/original.png";
+  import pepsi from "$lib/assets/pepsi.png";
 
   import { depara_operações } from "$lib/stores";
   import { removeDuplicates } from "$lib/utils";
@@ -77,7 +82,6 @@
     }
   }
 
-  //adicionar skol, stella e um agrupado da concorrencia e própria e adicionar SOPI
   let materiais = [
     {
       marca: "Brahama Chopp",
@@ -88,6 +92,19 @@
         Ombrelone: 0,
         Luminoso: 0,
         Geladeira: 0,
+        Chopeira: 0,
+      },
+    },
+    {
+      marca: "Duplo Malte",
+      logo: bdm,
+      qtd_materiais: {
+        "Jogos de Mesa": 0,
+        Cervegela: 0,
+        Ombrelone: 0,
+        Luminoso: 0,
+        Geladeira: 0,
+        Chopeira: 0,
       },
     },
     {
@@ -99,6 +116,7 @@
         Ombrelone: 0,
         Luminoso: 0,
         Geladeira: 0,
+        Chopeira: 0,
       },
     },
     {
@@ -110,6 +128,7 @@
         Ombrelone: 0,
         Luminoso: 0,
         Geladeira: 0,
+        Chopeira: 0,
       },
     },
     {
@@ -121,6 +140,7 @@
         Ombrelone: 0,
         Luminoso: 0,
         Geladeira: 0,
+        Chopeira: 0,
       },
     },
     {
@@ -132,6 +152,7 @@
         Ombrelone: 0,
         Luminoso: 0,
         Geladeira: 0,
+        Chopeira: 0,
       },
     },
     {
@@ -143,6 +164,7 @@
         Ombrelone: 0,
         Luminoso: 0,
         Geladeira: 0,
+        Chopeira: 0,
       },
     },
     {
@@ -154,6 +176,44 @@
         Ombrelone: 0,
         Luminoso: 0,
         Geladeira: 0,
+        Chopeira: 0,
+      },
+    },
+    
+    {
+      marca: "Antarctica",
+      logo: antarctica,
+      qtd_materiais: {
+        "Jogos de Mesa": 0,
+        Cervegela: 0,
+        Ombrelone: 0,
+        Luminoso: 0,
+        Geladeira: 0,
+        Chopeira: 0,
+      },
+    },
+    {
+      marca: "Bohemia",
+      logo: bohemia,
+      qtd_materiais: {
+        "Jogos de Mesa": 0,
+        Cervegela: 0,
+        Ombrelone: 0,
+        Luminoso: 0,
+        Geladeira: 0,
+        Chopeira: 0,
+      },
+    },
+    {
+      marca: "Original",
+      logo: original,
+      qtd_materiais: {
+        "Jogos de Mesa": 0,
+        Cervegela: 0,
+        Ombrelone: 0,
+        Luminoso: 0,
+        Geladeira: 0,
+        Chopeira: 0,
       },
     },
     {
@@ -165,8 +225,22 @@
         Ombrelone: 0,
         Luminoso: 0,
         Geladeira: 0,
+        Chopeira: 0,
       },
     },
+    {
+      marca: "Pepsi",
+      logo: pepsi,
+      qtd_materiais: {
+        "Jogos de Mesa": 0,
+        Cervegela: 0,
+        Ombrelone: 0,
+        Luminoso: 0,
+        Geladeira: 0,
+        Chopeira: 0,
+      },
+    },
+    
     {
       marca: "Concorrência",
       logo: concorrencia,
@@ -176,6 +250,7 @@
         Ombrelone: 0,
         Luminoso: 0,
         Geladeira: 0,
+        Chopeira: 0,
       },
     },
     {
@@ -187,6 +262,7 @@
         Ombrelone: 0,
         Luminoso: 0,
         Geladeira: 0,
+        Chopeira: 0,
       },
     },
   ];
@@ -226,7 +302,7 @@
 <form method="POST" action="?/upload" enctype="multipart/form-data">
   <input type="hidden" name="dados" bind:value={dados_finais} />
   <div class="flex sm:m-6 m-1 font-bold justify-center">
-    <Card.Root class="sm:w-2/3 w-full">
+    <Card.Root class="sm:w-3/4 w-full">
       <Card.Header>
         <Card.Title>Levantamento PDVs</Card.Title>
         <Card.Description

@@ -190,10 +190,7 @@
       <Card class="bg-white bg-opacity-90 p-4">
         <h2 class="font-bold mt-4">Imagens</h2>
         <div class="max-w-full items-center align-middle">
-          <Carrousel
-            class=""
-            images={[pdv.fachada, pdv.cardapio, pdv.interior]}
-          />
+          <Carrousel images={[pdv.fachada, pdv.cardapio, pdv.interior]} />
         </div>
       </Card>
     {:else if selected_pdv === undefined}
