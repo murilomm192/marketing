@@ -118,6 +118,7 @@
       Cervegela: row.qtd_materiais["Cervegela"],
       Ombrelone: row.qtd_materiais["Ombrelone"],
       Luminoso: row.qtd_materiais["Luminoso"],
+      Chopeira: row.qtd_materiais["Chopeira"],
     }));
 
   let detalhes_google;
