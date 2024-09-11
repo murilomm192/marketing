@@ -74,6 +74,7 @@
       Cervegela: row.qtd_materiais["Cervegela"],
       Ombrelone: row.qtd_materiais["Ombrelone"],
       Luminoso: row.qtd_materiais["Luminoso"],
+      Chopeira: row.qtd_materiais["Chopeira"],
     }));
 
   $: images = [
@@ -186,9 +187,12 @@
           <span class="font-bold">Nome Google: </span>{$page.data.google.nome}
         </p>
         <div class="flex items-center">
-        <p>
-        <span class="font-bold">Rating Avalições: </span> {$page.data.google.rating} estrelas com {$page.data.google.n_reviews} avaliações</p>
-      </div>
+          <p>
+            <span class="font-bold">Rating Avalições: </span>
+            {$page.data.google.rating} estrelas com {$page.data.google
+              .n_reviews} avaliações
+          </p>
+        </div>
         <p>
           <span class="font-bold text-wrap w-full"
             >Tipo Estabelecimento:
@@ -196,7 +200,9 @@
         </p>
         <p>
           <span class="font-bold text-wrap w-full">Faixa de Preço: </span>{$page
-            .data.google.preço ? "$".repeat($page.data.google.preço) : "Não Informado"}
+            .data.google.preço
+            ? "$".repeat($page.data.google.preço)
+            : "Não Informado"}
         </p>
       </div>
     </div>

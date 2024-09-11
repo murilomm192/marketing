@@ -19,7 +19,7 @@
                 {#each Object.keys(data[0]) as key}
                   <th
                     scope="col"
-                    class="text-sm text-gray-900 px-1 py-2 text-center min-w-[80px]"
+                    class="text-sm text-gray-900 px-1 py-2 text-center min-w-[75px]"
                   >
                     {key}
                   </th>
