@@ -80,6 +80,12 @@ v.chave,
 where chave = ${chave}
 `);
 
+  let pedidos_hub = await db.execute(sql`
+select 
+  * from pedidos_hub
+where chave = ${chave}
+`);
+
   const buckets = ["Fachadas", "Cardapios", "Interiores"];
   const columns = ["fachada", "cardapio", "interior"];
 
@@ -97,6 +103,7 @@ where chave = ${chave}
     ok: "ok",
     result: base,
     volumes,
+    pedidos_hub: pedidos_hub,
     google: detalhes_google
   };
 };

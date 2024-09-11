@@ -43,6 +43,13 @@
       "when": 1725374479455,
       "tag": "0005_slow_wolverine",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1726087730996,
+      "tag": "0006_complete_owl",
+      "breakpoints": true
     }
   ]
 }

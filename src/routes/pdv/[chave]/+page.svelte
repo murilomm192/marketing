@@ -40,6 +40,14 @@
     };
   });
 
+  let pedidos_hub =
+    $page.data.pedidos_hub.length == 0
+      ? [{ marca: "sem pedidos" }]
+      : $page.data.pedidos_hub.map((row) => {
+          delete row.descricao;
+          return row;
+        });
+
   function formatDate(dateString) {
     const date = new Date(dateString);
     const day = date.getDate().toString().padStart(2, "0");
@@ -146,7 +154,6 @@
     /></Label
   >
 </div>
-
 <div class=" grid grid-cols-2 grid-rows-3 p-0.5">
   <Card class="bg-white bg-opacity-90 p-2 m-0.5">
     <div class="grid grid-cols-2">
@@ -223,6 +230,7 @@
     </div>
     <h2 class="font-bold">Materiais</h2>
     <TableMapa bind:data={materiais_pdv} class="overflow-clip" />
+    <TableMapa bind:data={pedidos_hub} class="overflow-clip" />
   </Card>
   <Card class="bg-white bg-opacity-90 p-1 row-span-2 m-0.5">
     <div class="px-2">

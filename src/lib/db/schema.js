@@ -58,3 +58,11 @@ export const volume = pgTable('volume', {
   };
 })
 
+export const pedidos_hub = pgTable('pedidos_hub', {
+  chave: varchar('chave').notNull(),
+  data_entrega: varchar('data_entrega'),
+  marca: varchar('marca'),
+  material: varchar('material'),
+  descricao: varchar('descricao'),
+  quantidade: varchar('quantidade')
+}, (table) => { return { pk: primaryKey({ columns: [table.chave, table.descricao, table.data_entrega] }) } })
