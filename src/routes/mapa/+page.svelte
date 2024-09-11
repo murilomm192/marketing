@@ -10,7 +10,9 @@
 
   export let data;
 
-  let selected_pdv = data.result[0].chave;
+  let selected_pdv = data.result[0];
+
+  console.log(data.proximos.length)
 
   let cesta_selecionada = "cerveja";
 
@@ -22,15 +24,23 @@
     fachada: row.fachada,
   }));
 
+  let pdvs_proximos = data.proximos.map((row) => ({
+    lngLat: [row.latitude, row.longitude],
+    nome: row.nome_fantasia,
+    segmento: row.segmentação_primária,
+    chave: row.chave,
+
+  }));
+
   $: ponto_clicado =
     selected_pdv != undefined
-      ? data.result.filter((row) => row.chave == selected_pdv)[0]
+      ? data.result.filter((row) => row.chave == selected_pdv.chave)[0]
       : [];
 
   $: volume_pdv =
     selected_pdv != undefined
       ? data.volumes
-          .filter((row) => row.chave == selected_pdv)
+          .filter((row) => row.chave == selected_pdv.chave)
           .sort((a, b) => (a.mes > b.mes ? 1 : -1))
       : [];
 
@@ -126,7 +136,7 @@
 
 <div class="w-full h-screen relative">
   <div class="w-full h-full absolute top-0 left-0 z-0">
-    <Mapa {points} bind:selected_pdv />
+    <Mapa {points} {pdvs_proximos} bind:selected_pdv />
   </div>
 
   <div

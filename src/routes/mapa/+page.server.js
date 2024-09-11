@@ -37,6 +37,11 @@ export const load = async () => {
   on c.chave = pdv.chave
   where pdv.latitude is not null order by c.data_visita desc limit 1000`);
 
+  let proximos = await db.execute(sql`
+  select
+  * from cliente as pdv
+  where pdv.latitude is not null and pdv.unb in (select distinct cast(operação as integer) from coleta_pdv)`);
+
   let volumes = await db.execute(sql`
 select 
   DISTINCT c.chave,
@@ -73,6 +78,7 @@ left join volume as v on c.chave = v.chave
 
   return {
     ok: "ok",
+    proximos: proximos,
     result: base.filter((obj1, i, arr) => 
       arr.findIndex(obj2 => (obj2.chave === obj1.chave)) === i
     ),
