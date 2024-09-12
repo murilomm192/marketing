@@ -43,10 +43,24 @@
   let pedidos_hub =
     $page.data.pedidos_hub.length == 0
       ? [{ marca: "sem pedidos" }]
-      : $page.data.pedidos_hub.map((row) => {
-          delete row.descricao;
-          return row;
-        });
+      : $page.data.pedidos_hub
+          .map((row) => {
+            const parts = row.data_entrega.split("/");
+            row.data_entrega = new Date(parts[2], parts[1] - 1, parts[0]);
+            delete row.descricao;
+            return row;
+          })
+          .sort((a, b) => {
+            const dateComparison = new Date(b.data_entrega) - new Date(a.data_entrega);
+            if (dateComparison !== 0) {
+              return dateComparison;
+            }
+            return b.quantidade - a.quantidade;
+          })
+          .map((row) => {
+            row.data_entrega = new Date(row.data_entrega).toLocaleDateString("pt-BR");
+            return row;
+          });
 
   function formatDate(dateString) {
     const date = new Date(dateString);
