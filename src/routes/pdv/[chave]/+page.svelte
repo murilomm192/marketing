@@ -51,14 +51,17 @@
             return row;
           })
           .sort((a, b) => {
-            const dateComparison = new Date(b.data_entrega) - new Date(a.data_entrega);
+            const dateComparison =
+              new Date(b.data_entrega) - new Date(a.data_entrega);
             if (dateComparison !== 0) {
               return dateComparison;
             }
             return b.quantidade - a.quantidade;
           })
           .map((row) => {
-            row.data_entrega = new Date(row.data_entrega).toLocaleDateString("pt-BR");
+            row.data_entrega = new Date(row.data_entrega).toLocaleDateString(
+              "pt-BR",
+            );
             return row;
           });
 
@@ -244,6 +247,8 @@
     </div>
     <h2 class="font-bold">Materiais</h2>
     <TableMapa bind:data={materiais_pdv} class="overflow-clip" />
+
+    <h2 class="font-bold">Pedidos Hub</h2>
     <TableMapa bind:data={pedidos_hub} class="overflow-clip" />
   </Card>
   <Card class="bg-white bg-opacity-90 p-1 row-span-2 m-0.5">

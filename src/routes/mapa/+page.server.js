@@ -40,7 +40,7 @@ export const load = async () => {
   let proximos = await db.execute(sql`
   select
   * from cliente as pdv
-  where pdv.latitude is not null and pdv.unb in (select distinct cast(operação as integer) from coleta_pdv)`);
+  where pdv.latitude is not null and pdv.unb in (select distinct cast(operação as integer) from coleta_pdv) and pdv.chave not in (select distinct chave from coleta_pdv)`);
 
   let volumes = await db.execute(sql`
 select 
@@ -79,7 +79,7 @@ left join volume as v on c.chave = v.chave
   return {
     ok: "ok",
     proximos: proximos,
-    result: base.filter((obj1, i, arr) => 
+    result: base.filter((obj1, i, arr) =>
       arr.findIndex(obj2 => (obj2.chave === obj1.chave)) === i
     ),
     volumes,

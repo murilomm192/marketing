@@ -10,6 +10,7 @@
   import Compressor from "compressorjs";
 
   import brahma from "$lib/assets/brahma.png";
+  import chopp from "$lib/assets/chopp.png";
   import beats from "$lib/assets/beats.png";
   import bud from "$lib/assets/bud.png";
   import corona from "$lib/assets/corona.png";
@@ -84,7 +85,7 @@
 
   let materiais = [
     {
-      marca: "Brahama Chopp",
+      marca: "Brahma Chopp",
       logo: brahma,
       qtd_materiais: {
         "Jogos de Mesa": 0,
@@ -98,6 +99,18 @@
     {
       marca: "Duplo Malte",
       logo: bdm,
+      qtd_materiais: {
+        "Jogos de Mesa": 0,
+        Cervegela: 0,
+        Ombrelone: 0,
+        Luminoso: 0,
+        Geladeira: 0,
+        Chopeira: 0,
+      },
+    },
+    {
+      marca: "Chopp Brahma",
+      logo: chopp,
       qtd_materiais: {
         "Jogos de Mesa": 0,
         Cervegela: 0,
@@ -179,7 +192,7 @@
         Chopeira: 0,
       },
     },
-    
+
     {
       marca: "Antarctica",
       logo: antarctica,
@@ -240,7 +253,7 @@
         Chopeira: 0,
       },
     },
-    
+
     {
       marca: "Concorrência",
       logo: concorrencia,
@@ -374,9 +387,7 @@
                 /></svg
               >
               <label for="actual-btn-fachada" class="font-normal text-sm"
-                >{arquivos_fachada
-                  ? arquivos_fachada.name
-                  : "Fachada"}</label
+                >{arquivos_fachada ? arquivos_fachada.name : "Fachada"}</label
               >
             </div>
             <div
@@ -462,3 +473,4 @@
     </Card.Root>
   </div>
 </form>
+
