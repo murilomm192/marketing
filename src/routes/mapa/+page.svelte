@@ -12,8 +12,6 @@
 
   let selected_pdv = data.result[0];
 
-  console.log(data.proximos.length)
-
   let cesta_selecionada = "cerveja";
 
   let points = data.result.map((row) => ({

@@ -71,7 +71,6 @@
 
         nearby_pdvs.addLayer(marker);
       });
-      map.addLayer(nearby_pdvs);
     }
 
     map = leaflet.map(mapElement).setView(
@@ -142,7 +141,6 @@
       nearby_pdvs.addLayer(marker);
     });
 
-    map.addLayer(nearby_pdvs);
 
     var baseMaps = {
       
@@ -150,10 +148,11 @@
 
     var overlayMaps = {
       Pesquisas: markers,
-      Próximos: nearby_pdvs,
     };
 
-    var layerControl = L.control.layers(baseMaps, overlayMaps).addTo(map);
+    var layerControl = leaflet.control.layers(baseMaps, overlayMaps, {collapsed:false}).addTo(map);
+
+    layerControl.addOverlay(nearby_pdvs, "PDVs Próximos");
   });
 
   onDestroy(async () => {
