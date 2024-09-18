@@ -15,7 +15,6 @@
     CardHeader,
     CardTitle,
   } from "$lib/components/ui/card";
-
   import { ChevronLeft, Star, Receipt } from "lucide-svelte";
   import { LegendPlainComponent } from "echarts/components";
 

@@ -1,8 +1,4 @@
 <script>
-  import Minus from "svelte-radix/Minus.svelte";
-  import Plus from "svelte-radix/Plus.svelte";
-  import { Button } from "$lib/components/ui/button/index.js";
-  import { Input } from "$lib/components/ui/input";
   export let data;
 </script>
 

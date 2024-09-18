@@ -47,6 +47,8 @@
       iconAnchor: [12, 41],
     });
 
+
+
     function select_marker(e) {
       selected_pdv = e.layer.options;
       console.log(selected_pdv);
@@ -141,16 +143,15 @@
       nearby_pdvs.addLayer(marker);
     });
 
-
-    var baseMaps = {
-      
-    };
+    var baseMaps = {};
 
     var overlayMaps = {
       Pesquisas: markers,
     };
 
-    var layerControl = leaflet.control.layers(baseMaps, overlayMaps, {collapsed:false}).addTo(map);
+    var layerControl = leaflet.control
+      .layers(baseMaps, overlayMaps, { collapsed: false })
+      .addTo(map);
 
     layerControl.addOverlay(nearby_pdvs, "PDVs Próximos");
   });
