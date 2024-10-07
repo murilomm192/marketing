@@ -350,7 +350,7 @@
           </div>
           <div class="grid grid-cols-1 space-y-1">
             <Label>Código PDV</Label>
-            <Input bind:value={PDV} />
+            <Input type="number" bind:value={PDV} />
           </div>
 
           <div class="grid grid-cols-3 gap-3 justify-between">
@@ -473,4 +473,3 @@
     </Card.Root>
   </div>
 </form>
-
