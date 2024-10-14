@@ -31,37 +31,41 @@ function get_public_url(base, bucket, column) {
 }
 
 export const load = async () => {
-  let base = await db.execute(sql`
+  let base_direta = await db.execute(sql`
   select 
-  * from coleta_pdv as c join cliente as pdv
+  * from cliente_direta limit 10`)
+
+  let base = await db.execute(sql`
+  select
+    * from coleta_pdv as c join cliente as pdv
   on c.chave = pdv.chave
   where pdv.latitude is not null order by c.data_visita desc limit 1000`);
 
   let proximos = await db.execute(sql`
   select
-  * from cliente as pdv
+    * from cliente as pdv
   where pdv.latitude is not null and pdv.unb in (select distinct cast(operação as integer) from coleta_pdv) and pdv.chave not in (select distinct chave from coleta_pdv)`);
 
   let volumes = await db.execute(sql`
-select 
+  select 
   DISTINCT c.chave,
-  v.ano,
-  v.mes,
-  coalesce(v.cerveja, 0) as cerveja,
-  coalesce(v.nab, 0) as nab,
-  coalesce(v.rgb, 0) as rgb,
-  coalesce(v.brahma, 0) as brahma,
-  coalesce(v.spaten, 0) as spaten,
-  coalesce(v.corona, 0) as corona,
-  coalesce(v.bud, 0) as bud,
-  coalesce(v.stella, 0) as stella,
-  coalesce(v.skol, 0) as skol,
-  coalesce(v.antarctica, 0) as antarctica,
-  coalesce(v.guarana, 0) as guarana,
-  coalesce(v.beats, 0) as beats
+    v.ano,
+    v.mes,
+    coalesce(v.cerveja, 0) as cerveja,
+    coalesce(v.nab, 0) as nab,
+    coalesce(v.rgb, 0) as rgb,
+    coalesce(v.brahma, 0) as brahma,
+    coalesce(v.spaten, 0) as spaten,
+    coalesce(v.corona, 0) as corona,
+    coalesce(v.bud, 0) as bud,
+    coalesce(v.stella, 0) as stella,
+    coalesce(v.skol, 0) as skol,
+    coalesce(v.antarctica, 0) as antarctica,
+    coalesce(v.guarana, 0) as guarana,
+    coalesce(v.beats, 0) as beats
 from coleta_pdv as c
 left join volume as v on c.chave = v.chave
-`);
+    `);
 
   const buckets = ["Fachadas", "Cardapios", "Interiores"];
   const columns = ["fachada", "cardapio", "interior"];
@@ -79,6 +83,7 @@ left join volume as v on c.chave = v.chave
   return {
     ok: "ok",
     proximos: proximos,
+    direta: base_direta,
     result: base.filter((obj1, i, arr) =>
       arr.findIndex(obj2 => (obj2.chave === obj1.chave)) === i
     ),

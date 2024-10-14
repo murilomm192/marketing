@@ -317,7 +317,7 @@
   <div class="flex sm:m-6 m-1 font-bold justify-center">
     <Card.Root class="sm:w-3/4 w-full">
       <Card.Header>
-        <Card.Title>Levantamento PDVs</Card.Title>
+        <Card.Title>Levantamento Trade - Lojas Direta CO</Card.Title>
         <Card.Description
           >Salve as informações do PDV para consulta</Card.Description
         >
@@ -361,8 +361,7 @@
                 type="file"
                 name="fachada"
                 id="actual-btn-fachada"
-                multiple="multiple"
-	              accept="capture=camera,image/*"
+                accept="image/*"
                 capture="environment"
                 hidden
                 bind:files={arquivos_fachada}
@@ -398,8 +397,7 @@
                 type="file"
                 name="cardapio"
                 id="actual-btn-cardapio"
-                multiple="multiple"
-	              accept="capture=camera,image/*"
+                accept="image/*"
                 capture="environment"
                 hidden
                 bind:files={arquivos_cardapio}
@@ -435,8 +433,7 @@
                 type="file"
                 name="interior"
                 id="actual-btn-interior"
-                multiple="multiple"
-	              accept="capture=camera,image/*"
+                accept="image/*"
                 capture="environment"
                 hidden
                 bind:value={arquivos_interior}

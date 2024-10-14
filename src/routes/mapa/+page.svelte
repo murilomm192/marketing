@@ -27,7 +27,6 @@
     nome: row.nome_fantasia,
     segmento: row.segmentação_primária,
     chave: row.chave,
-
   }));
 
   $: ponto_clicado =
