@@ -362,7 +362,8 @@
                 name="fachada"
                 id="actual-btn-fachada"
                 multiple="multiple"
-	              accept="capture=camera,image/*,environment"
+	              accept="image/*"
+                capture="environment,camera"
                 hidden
                 bind:files={arquivos_fachada}
                 on:change={compressImage}
