@@ -1,7 +1,7 @@
 import { drizzle } from 'drizzle-orm/postgres-js';
 import { sql, eq, ilike, notInArray, inArray } from 'drizzle-orm';
 import postgres from 'postgres';
-import { coleta_pdv } from "$lib/db/schema.js"
+import { cliente_direta, coleta_pdv } from "$lib/db/schema.js"
 
 import {
   PUBLIC_DATABASE_URL,
@@ -19,6 +19,32 @@ const supabase = createClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY);
 const connectionString = PUBLIC_DATABASE_URL;
 const client = postgres(connectionString);
 const db = drizzle(client);
+
+export const load = async () => {
+  const base_direta = await db.select({
+    eg: cliente_direta.eg,
+    nome_fantasia: cliente_direta.nome_fantasia,
+    uf: cliente_direta.uf,
+    cidade: cliente_direta.cidade,
+    rede: cliente_direta.rede,
+    gn: cliente_direta.gn,
+    sn: cliente_direta.sn,
+    le: cliente_direta.le,
+    coordenador_trade: cliente_direta.coordenador_trade,
+    inplant: cliente_direta.inplant,
+    cluster_loja: cliente_direta.cluster_loja,
+    segmentacao: cliente_direta.segmentacao,
+    subsegmento: cliente_direta.sub_segmentacao,
+    categoria: cliente_direta.categoria,
+    programa_de_mercado: cliente_direta.programa_de_mercado,
+    cluster_trade: cliente_direta.cluster_trade,
+    latitude: cliente_direta.latitude,
+    longituade: cliente_direta.longitude
+  }).from(cliente_direta)
+
+
+  return { base_direta: base_direta }
+};
 
 function upload_file(file, bucket) {
   return file.arrayBuffer()

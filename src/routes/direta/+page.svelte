@@ -7,9 +7,6 @@
   import { Label } from "$lib/components/ui/label";
   import Calendar from "$lib/components/calendar.svelte";
   import Dropdown from "$lib/components/dropdown.svelte";
-  import DataTable from "$lib/components/TableMarcas.svelte";
-
-  import Compressor from "compressorjs";
 
   import brahma from "$lib/assets/brahma.png";
   import chopp from "$lib/assets/chopp.png";
@@ -29,37 +26,45 @@
   import pepsi from "$lib/assets/pepsi.png";
 
   import { depara_operações } from "$lib/stores";
-  import { removeDuplicates } from "$lib/utils";
+  import { removeDuplicates, compressImage } from "$lib/utils";
   import * as Accordion from "$lib/components/ui/accordion";
   import TableMarcas from "$lib/components/TableMarcas.svelte";
 
-  import {
-    DateFormatter,
-    getLocalTimeZone,
-    today,
-  } from "@internationalized/date";
+  import { getLocalTimeZone, today } from "@internationalized/date";
 
-  let dados = [];
+  export let data;
 
   let name;
   let data_visita = today(getLocalTimeZone());
-  let PDV;
-  let comercial_selecionado;
-  let operação_selecionada;
+  let uf_selecinado;
+  let rede_selecionada;
+  let loja_selecionada;
 
-  $: comerciais = removeDuplicates("comercial", dados).map((row) => {
+  let imagens;
+
+  $: uf = removeDuplicates("uf", data.base_direta).map((row) => {
     return {
-      value: row.comercial,
-      name: row.comercial,
+      value: row.uf,
+      name: row.uf,
     };
   });
 
-  $: operações = removeDuplicates("operação", dados)
-    .filter((row) => row.comercial === comercial_selecionado)
+  $: rede = removeDuplicates("rede", data.base_direta)
+    .filter((row) => row.uf === uf_selecinado)
     .map((row) => {
       return {
-        value: row.unb.toString(),
-        name: row.operação,
+        value: row.rede,
+        name: row.rede,
+      };
+    });
+
+  $: loja = removeDuplicates("nome_fantasia", data.base_direta)
+    .filter((row) => row.rede === rede_selecionada)
+    .filter((row) => row.uf === uf_selecinado)
+    .map((row) => {
+      return {
+        value: row.eg,
+        name: row.nome_fantasia,
       };
     });
 
@@ -107,8 +112,7 @@
 
 <div class="p-4">
   <h2 class="font-bold text-xl">Lojas Direta</h2>
-  <h1>Levantamento de Materiais de Trade</h1>
-
+  <h1 class="mb-4">Levantamento de Materiais de Trade</h1>
   <div class="space-y-2 sm:grid sm:grid-cols-2 sm:gap-2">
     <div class="grid grid-cols-1 space-y-1">
       <Label>Nome</Label>
@@ -119,27 +123,91 @@
       <Calendar bind:value={data_visita} />
     </div>
     <div class="grid grid-cols-1 space-y-1">
-      <Label>Comercial</Label>
+      <Label>UF</Label>
       <Dropdown
-        bind:values={comerciais}
-        nome_categoria="comercial"
-        bind:value={comercial_selecionado}
+        bind:values={uf}
+        nome_categoria="Selecione a UF"
+        bind:value={uf_selecinado}
       />
     </div>
     <div class="grid grid-cols-1 space-y-1">
-      <Label>Operação</Label>
+      <Label>Rede</Label>
       <Dropdown
-        bind:values={operações}
-        nome_categoria="operação"
-        bind:value={operação_selecionada}
+        bind:values={rede}
+        nome_categoria="Selecione a Rede"
+        bind:value={rede_selecionada}
       />
     </div>
     <div class="grid grid-cols-1 space-y-1">
-      <Label>Código PDV</Label>
-      <Input type="number" bind:value={PDV} />
+      <Label>Loja</Label>
+      <Dropdown
+        bind:values={loja}
+        nome_categoria="Selecione a Loja"
+        bind:value={loja_selecionada}
+      />
     </div>
-</div>
+  </div>
 
+  <div
+    class="my-4 py-2 space-x-1 flex border rounded-lg border-slate-400 items-center text-wrap max-h-12 justify-center"
+  >
+    <svg
+      width="64px"
+      height="64px"
+      viewBox="0 0 1024 1024"
+      class="icon"
+      version="1.1"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="#000000"
+      ><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g
+        id="SVGRepo_tracerCarrier"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></g><g id="SVGRepo_iconCarrier"
+        ><path
+          d="M356.4 168.9h318.1c15.3 0 27.7 12.4 27.7 27.7v83H328.7v-83c0-15.3 12.4-27.7 27.7-27.7z"
+          fill="#FFFFFF"
+        ></path><path
+          d="M729.8 307.2H301V196.6c0-30.5 24.8-55.3 55.3-55.3h318.1c30.5 0 55.3 24.8 55.3 55.3v110.6z m-373.4-55.3h318.1v-55.3H356.3l0.1 55.3z"
+          fill="#333333"
+        ></path><path
+          d="M162.8 238.1h691.5c15.3 0 27.7 12.4 27.7 27.7v497.9c0 15.3-12.4 27.7-27.7 27.7H162.8c-15.3 0-27.7-12.4-27.7-27.7V265.8c0-15.4 12.4-27.7 27.7-27.7z"
+          fill="#FFFFFF"
+        ></path><path
+          d="M826.6 791.3H190.4c-30.5 0-55.3-24.8-55.3-55.3V293.4c0-30.5 24.8-55.3 55.3-55.3h636.2c30.5 0 55.3 24.8 55.3 55.3v442.5c0 30.5-24.8 55.4-55.3 55.4zM190.4 293.4v442.5h636.2V293.3H190.4z"
+          fill="#333333"
+        ></path><path
+          d="M328.7 514.7a186.7 179.8 0 1 0 373.4 0 186.7 179.8 0 1 0-373.4 0Z"
+          fill="#8CAAFF"
+        ></path><path
+          d="M515.4 722.1c-118.2 0-214.4-93-214.4-207.4s96.2-207.4 214.4-207.4 214.4 93.1 214.4 207.4S633.6 722.1 515.4 722.1z m0-359.6c-87.7 0-159 68.2-159 152.1S427.7 666.8 515.4 666.8s159-68.2 159-152.1-71.3-152.2-159-152.2z"
+          fill="#333333"
+        ></path><path
+          d="M439.3 514.7a76.1 69.1 0 1 0 152.2 0 76.1 69.1 0 1 0-152.2 0Z"
+          fill="#FFFFFF"
+        ></path><path
+          d="M515.4 611.5c-57.2 0-103.7-43.4-103.7-96.8s46.5-96.8 103.7-96.8 103.7 43.4 103.7 96.8-46.5 96.8-103.7 96.8z m0-138.3c-26.7 0-48.4 18.6-48.4 41.5s21.7 41.5 48.4 41.5 48.4-18.6 48.4-41.5-21.7-41.5-48.4-41.5z"
+          fill="#333333"
+        ></path></g
+      ></svg
+    >
+    <input
+      type="file"
+      name="imagens"
+      id="actual-imagens"
+      multiple="multiple"
+      accept="image/*"
+      capture="environment,camera"
+      hidden
+      bind:files={imagens}
+      on:change={compressImage}
+    />
+    <label for="actual-btn-fachada" class="font-normal text-md text-bold"
+      >{imagens ? imagens.name : "Selecione as fotos da Galeria"}</label
+    >
+  </div>
+
+  <p class="font-bold">Materiais</p>
   <Accordion.Root>
     {#each levantamento as marca}
       <Accordion.Item value={marca.nome}>
@@ -155,9 +223,11 @@
                   <div
                     class="grid grid-cols-2 justify-around items-center bg-slate-100 px-6"
                   >
-                  <p class="items-center min-w-full px-10 font-semibold inline-block">
-                    {equip}
-                  </p>
+                    <p
+                      class="items-center min-w-full px-2 font-semibold inline-block"
+                    >
+                      {equip}
+                    </p>
                     <div class="flex space-x-1 min-w-full justify-center">
                       <Button
                         variant="outline"

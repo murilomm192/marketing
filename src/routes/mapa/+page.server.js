@@ -31,10 +31,6 @@ function get_public_url(base, bucket, column) {
 }
 
 export const load = async () => {
-  let base_direta = await db.execute(sql`
-  select 
-  * from cliente_direta limit 10`)
-
   let base = await db.execute(sql`
   select
     * from coleta_pdv as c join cliente as pdv
@@ -83,7 +79,6 @@ left join volume as v on c.chave = v.chave
   return {
     ok: "ok",
     proximos: proximos,
-    direta: base_direta,
     result: base.filter((obj1, i, arr) =>
       arr.findIndex(obj2 => (obj2.chave === obj1.chave)) === i
     ),

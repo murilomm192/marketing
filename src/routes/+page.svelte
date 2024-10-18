@@ -7,8 +7,6 @@
   import Dropdown from "$lib/components/dropdown.svelte";
   import DataTable from "$lib/components/TableMarcas.svelte";
 
-  import Compressor from "compressorjs";
-
   import brahma from "$lib/assets/brahma.png";
   import chopp from "$lib/assets/chopp.png";
   import beats from "$lib/assets/beats.png";
@@ -27,7 +25,7 @@
   import pepsi from "$lib/assets/pepsi.png";
 
   import { depara_operações } from "$lib/stores";
-  import { removeDuplicates } from "$lib/utils";
+  import { removeDuplicates, compressImage } from "$lib/utils";
 
   import {
     DateFormatter,
@@ -42,46 +40,6 @@
   let arquivos_cardapio;
   let arquivos_fachada;
   let arquivos_interior;
-
-  function compressImage(e) {
-    const filesFromElement = e.target.files;
-
-    if (!filesFromElement) return;
-
-    for (let i = 0; i < filesFromElement.length; i++) {
-      new Compressor(filesFromElement[i], {
-        quality: 0.6,
-        height: 1024,
-        strict: true,
-        success(result) {
-          let file;
-          let name = result.name;
-          let type = result.type;
-
-          if (result instanceof Blob) {
-            file = new File([result], "compressed_" + name, { type });
-          } else {
-            file = result;
-          }
-
-          const dt = new DataTransfer();
-          dt.items.add(file);
-
-          if (filesFromElement) {
-            for (let i = 1; i < filesFromElement.length; i++) {
-              dt.items.add(filesFromElement[i]);
-            }
-          }
-
-          e.target.files = dt.files;
-        },
-
-        error(err) {
-          console.log(err.message);
-        },
-      });
-    }
-  }
 
   let materiais = [
     {
@@ -362,7 +320,7 @@
                 name="fachada"
                 id="actual-btn-fachada"
                 multiple="multiple"
-	              accept="image/*"
+                accept="image/*"
                 capture="environment,camera"
                 hidden
                 bind:files={arquivos_fachada}
@@ -399,7 +357,7 @@
                 name="cardapio"
                 id="actual-btn-cardapio"
                 multiple="multiple"
-	              accept="capture=camera,image/*"
+                accept="capture=camera,image/*"
                 capture="environment"
                 hidden
                 bind:files={arquivos_cardapio}
@@ -436,7 +394,7 @@
                 name="interior"
                 id="actual-btn-interior"
                 multiple="multiple"
-	              accept="capture=camera,image/*"
+                accept="capture=camera,image/*"
                 capture="environment"
                 hidden
                 bind:value={arquivos_interior}
