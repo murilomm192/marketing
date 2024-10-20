@@ -42,6 +42,11 @@
 
   let imagens;
 
+  async function handleImages(e) {
+    imagens = await compressImage(e);
+    console.log(imagens, "fora");
+  }
+
   $: uf = removeDuplicates("uf", data.base_direta).map((row) => {
     return {
       value: row.uf,
@@ -149,8 +154,19 @@
   </div>
 
   <div
-    class="my-4 py-2 space-x-1 flex border rounded-lg border-slate-400 items-center text-wrap max-h-12 justify-center"
+    class="my-4 py-2 space-x-1 flex border rounded-lg border-slate-400 items-center text-wrap max-h-14 justify-center"
   >
+    <input
+      type="file"
+      name="imagens"
+      id="actual-imagens"
+      multiple="multiple"
+      accept="image/*"
+      capture="environment,camera"
+      hidden
+      bind:files={imagens}
+      on:change={handleImages}
+    />
     <svg
       width="64px"
       height="64px"
@@ -191,18 +207,7 @@
         ></path></g
       ></svg
     >
-    <input
-      type="file"
-      name="imagens"
-      id="actual-imagens"
-      multiple="multiple"
-      accept="image/*"
-      capture="environment,camera"
-      hidden
-      bind:files={imagens}
-      on:change={compressImage}
-    />
-    <label for="actual-btn-fachada" class="font-normal text-md text-bold"
+    <label for="actual-imagens" class="font-normal text-md text-bold"
       >{imagens ? imagens.name : "Selecione as fotos da Galeria"}</label
     >
   </div>

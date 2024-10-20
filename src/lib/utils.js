@@ -2,6 +2,8 @@ import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { cubicOut } from "svelte/easing";
 
+import Compressor from "compressorjs"
+
 export function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
@@ -55,12 +57,14 @@ export function removeDuplicates(key, array) {
   )
 }
 
-export function compressImage(e) {
+export async function compressImage(e) {
   const filesFromElement = e.target.files;
 
   if (!filesFromElement) return;
+  const dt = new DataTransfer();
 
-  for (let i = 0; i < filesFromElement.length; i++) {
+  const items = await filesFromElement.map(() => {
+
     new Compressor(filesFromElement[i], {
       quality: 0.6,
       height: 1024,
@@ -76,21 +80,16 @@ export function compressImage(e) {
           file = result;
         }
 
-        const dt = new DataTransfer();
-        dt.items.add(file);
-
-        if (filesFromElement) {
-          for (let i = 1; i < filesFromElement.length; i++) {
-            dt.items.add(filesFromElement[i]);
-          }
-        }
-
-        e.target.files = dt.files;
+        return file
       },
 
       error(err) {
         console.log(err.message);
       },
     });
+
   }
+
+
+    return dt.files;
 }
