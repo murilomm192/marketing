@@ -58,38 +58,34 @@ export function removeDuplicates(key, array) {
 }
 
 export async function compressImage(e) {
-  const filesFromElement = e.target.files;
+  const filesFromElement = [...e.target.files];
 
   if (!filesFromElement) return;
-  const dt = new DataTransfer();
+  let dt = [];
 
-  const items = await filesFromElement.map(() => {
+  await Promise.all(
+    filesFromElement.map((file) => {
+      new Compressor(file, {
+        quality: 0.6,
+        height: 1024,
+        strict: true,
+        success(result) {
+          let file;
+          let name = result.name;
+          let type = result.type;
+          if (result instanceof Blob) {
+            file = new File([result], "compressed_" + name, { type });
+          } else {
+            file = result;
+          }
+          dt.push(file);
+        },
+        error(err) {
+          console.log(err.message);
+        },
+      })
+    })
+  )
+  return dt
 
-    new Compressor(filesFromElement[i], {
-      quality: 0.6,
-      height: 1024,
-      strict: true,
-      success(result) {
-        let file;
-        let name = result.name;
-        let type = result.type;
-
-        if (result instanceof Blob) {
-          file = new File([result], "compressed_" + name, { type });
-        } else {
-          file = result;
-        }
-
-        return file
-      },
-
-      error(err) {
-        console.log(err.message);
-      },
-    });
-
-  }
-
-
-    return dt.files;
 }
