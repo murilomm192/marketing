@@ -74,7 +74,7 @@ async function getSignedURL(bucket, file_name) {
     .storage
     .from(bucket)
     .createSignedUploadUrl(file_name)
-
+  console.log(data)
   return data.token
 }
 
