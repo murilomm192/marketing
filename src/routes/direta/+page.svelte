@@ -69,6 +69,8 @@
 
   let paths_after_upload = [];
 
+  let disableButton = false;
+
   async function uploadWithURL(e) {
     const files_picked = Array.from(e.target.files);
 
@@ -78,6 +80,11 @@
       await upload_file(file, file_name, "Direta", token);
       paths_after_upload.push(file_name);
     });
+
+    disableButton = true;
+    setTimeout(() => {
+      disableButton = false;
+    }, 5000);
   }
 
   export let data;
@@ -319,5 +326,7 @@
       {/each}
     </Accordion.Root>
   </div>
-  <Button type="submit" class="w-full m-6"><Label>Enviar</Label></Button>
+  <Button type="submit" class="mx-6 mx-auto block justify-center w-5/6" disabled={disableButton}>
+    <Label>Enviar</Label></Button
+  >
 </form>
