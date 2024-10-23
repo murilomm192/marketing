@@ -69,7 +69,7 @@ function get_public_url(base, bucket, coluna) {
   return base_url
 }
 
-async function getSignedURL(bucket, file_name) {
+async function getSignedURLs(bucket, file_name) {
   const { data, error } = await supabase
     .storage
     .from(bucket)

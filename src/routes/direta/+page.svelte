@@ -32,6 +32,44 @@
 
   import { getLocalTimeZone, today } from "@internationalized/date";
 
+  import {
+    PUBLIC_DATABASE_URL,
+    PUBLIC_SUPABASE_URL,
+    PUBLIC_SUPABASE_ANON_KEY,
+  } from "$env/static/public";
+
+  import { createClient } from "@supabase/supabase-js";
+
+  //process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
+  const supabase = createClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY);
+
+  let token;
+
+  function upload_file(file, bucket, token) {
+    console.log(file, bucket, token);
+    return file.arrayBuffer().then((r) =>
+      supabase.storage.from(bucket).uploadToSignedUrl(file.name, token, r, {
+        upsert: true,
+      }),
+    );
+  }
+
+  async function getSignedURLs(bucket, file_name) {
+    const { data, error } = await supabase.storage
+      .from(bucket)
+      .createSignedUploadUrl(file_name);
+    return data.token;
+  }
+
+  async function uploadWithURL(e) {
+    const files = Array.from(e.target.files);
+    const upload = files.map(async (file) => {
+      const token = await getSignedURLs("Direta", file.name);
+      console.log(await upload_file(file, "Direta", token));
+    });
+  }
+
   export let data;
 
   let name;
@@ -192,7 +230,7 @@
         />
       </div>
     </div>
-
+    {token}
     <div
       class="my-4 py-2 space-x-1 flex border rounded-lg border-slate-400 items-center text-wrap max-h-14 justify-center"
     >
@@ -203,7 +241,7 @@
         multiple="multiple"
         accept="capture=camera,image/*"
         hidden
-        on:change={compressImage}
+        on:change={uploadWithURL}
         bind:files
       />
       <svg
