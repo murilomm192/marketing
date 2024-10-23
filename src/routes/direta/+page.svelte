@@ -201,8 +201,7 @@
         name="imagens"
         id="actual-imagens"
         multiple="multiple"
-        accept="image/*"
-        capture="environment,camera"
+        accept="capture=camera,image/*"
         hidden
         on:change={compressImage}
         bind:files
