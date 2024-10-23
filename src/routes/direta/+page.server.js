@@ -74,7 +74,6 @@ async function getSignedURL(bucket, file_name) {
     .storage
     .from(bucket)
     .createSignedUploadUrl(file_name)
-  console.log(data)
   return data.token
 }
 
@@ -89,6 +88,7 @@ export const actions = {
     const fotos = Promise.all(foto_array.map(async (foto) => {
       const token = await getSignedURL('Direta', `${foto.name.split('.').at(0)} - ${new Date().toLocaleString('en-GB').replaceAll('/', '-')}.${foto.name.split('.').at(-1)}`)
       const ok_foto = await upload_file(foto, 'Direta', token)
+      console.log(foto, token)
       return ok_foto
     })).then(async (values) => {
       const upload = await db.insert(coleta_direta).values({
@@ -99,6 +99,7 @@ export const actions = {
           return { marca: row.nome, equipamentos: row.equipamentos }
         }),
         fotos: (values.map((foto) => {
+          console.log(foto)
           return foto.data.fullPath
         }))
       }).returning({ id: coleta_direta.id })
