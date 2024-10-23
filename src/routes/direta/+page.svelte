@@ -45,7 +45,8 @@
   let files;
 
   function compressImage(e) {
-    const filesFromElement = e.target.files;
+    let filesFromElement = e.target.files;
+    const dt = new DataTransfer();
 
     if (!filesFromElement) return;
 
@@ -65,14 +66,7 @@
             file = result;
           }
 
-          const dt = new DataTransfer();
           dt.items.add(file);
-          if (filesFromElement) {
-            for (let i = 1; i < filesFromElement.length; i++) {
-              dt.items.add(filesFromElement[i]);
-            }
-          }
-          files = dt.files;
         },
 
         error(err) {
@@ -80,6 +74,8 @@
         },
       });
     }
+    files = dt.files;
+    console.log(files);
   }
 
   $: uf = removeDuplicates("uf", data.base_direta).map((row) => {
@@ -148,10 +144,18 @@
       }, {}),
     };
   });
+
+  $: retorno = JSON.stringify({
+    nome: name,
+    data_visita: data_visita.toLocaleString("pt-BR"),
+    loja: loja_selecionada,
+    equipamentos: levantamento,
+  });
 </script>
 
 <form method="POST" action="?/upload" enctype="multipart/form-data">
   <div class="p-4">
+    <input type="hidden" bind:value={retorno} name="dados" />
     <h2 class="font-bold text-xl">Lojas Direta</h2>
     <h1 class="mb-4">Levantamento de Materiais de Trade</h1>
     <div class="space-y-2 sm:grid sm:grid-cols-2 sm:gap-2">
@@ -200,8 +204,8 @@
         accept="image/*"
         capture="environment,camera"
         hidden
-        bind:files
         on:change={compressImage}
+        bind:files
       />
       <svg
         width="64px"

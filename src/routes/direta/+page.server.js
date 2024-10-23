@@ -1,7 +1,7 @@
 import { drizzle } from 'drizzle-orm/postgres-js';
 import { sql, eq, ilike, notInArray, inArray } from 'drizzle-orm';
 import postgres from 'postgres';
-import { cliente_direta, coleta_pdv } from "$lib/db/schema.js"
+import { cliente_direta, coleta_pdv, coleta_direta } from "$lib/db/schema.js"
 
 import {
   PUBLIC_DATABASE_URL,
@@ -49,7 +49,7 @@ export const load = async () => {
 function upload_file(file, bucket) {
   return file.arrayBuffer()
     .then((r) =>
-      supabase.storage.from(bucket).upload(`${new Date().toLocaleString('en-GB').replaceAll('/', '-')}.${file.name.split('.').pop()}`, r, {
+      supabase.storage.from(bucket).upload(`${file.name.split('.').at(0)} - ${new Date().toLocaleString('en-GB').replaceAll('/', '-')}.${file.name.split('.').at(-1)}`, r, {
         upsert: true
       })
     );
@@ -72,24 +72,47 @@ export const actions = {
   upload: async ({ request }) => {
     const data = await request.formData();
 
-    const cardapio = data.get('cardapio').name !== '' ? await upload_file(data.get('cardapio'), 'Cardapios') : null;
-    const fachada = data.get('fachada').name !== '' ? await upload_file(data.get('fachada'), 'Fachadas') : null;
-    const interior = data.get('interior').name !== '' ? await upload_file(data.get('interior'), 'Interiores') : null;
+    const dados = JSON.parse(data.get('dados'))
 
-    const dados = await JSON.parse(data.get('dados'));
+    const foto_array = await data.getAll('imagens')
 
-    const upload = await db.insert(coleta_pdv).values({
-      chave: dados.operação + '_' + dados.cod_pdv,
-      nome_usuario: dados.nome,
-      data_visita: dados.data_visita.toLocaleString(),
-      cod_pdv: dados.cod_pdv,
-      comercial: dados.comercial,
-      operação: dados.operação,
-      cardapio: cardapio ? cardapio.data.path : null,
-      fachada: fachada ? fachada.data.path : null,
-      interior: interior ? interior.data.path : null,
-      materiais: dados.materiais,
-    }).returning({ id: coleta_pdv.id })
+    const fotos = Promise.all(foto_array.map(async (foto) => {
+      const ok_foto = await upload_file((foto), 'Direta')
+      return ok_foto
+    })).then(async (values) => {
+
+
+
+      const upload = await db.insert(coleta_direta).values({
+        eg: dados.loja,
+        nome_usuario: dados.nome,
+        data_visita: dados.data_visita,
+        materiais: dados.equipamentos.map((row) => {
+          return { marca: row.nome, equipamentos: row.equipamentos }
+        }),
+        fotos: (values.map((foto) => {
+          return foto.data.fullPath
+        }))
+      }).returning({ id: coleta_direta.id })
+
+      console.log(upload)
+
+    })
 
   }
+
+
+
+
+
+  // await data.getAll('imagens').map((file) => {
+  //   const { data, error } = supabase
+  //     .storage
+  //     .from('Direta')
+  //     .upload(file.name, file, {
+  //       cacheControl: '3600',
+  //       upsert: false
+  //     })
+  // })
 }
+

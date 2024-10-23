@@ -8,7 +8,8 @@
     "preview": "vite preview",
     "generate": "drizzle-kit generate",
     "migrate": "drizzle-kit migrate",
-    "introspect": "drizzle-kit introspect"
+    "introspect": "drizzle-kit introspect",
+    "studio": "drizzle-kit studio"
   },
   "devDependencies": {
     "@sveltejs/adapter-auto": "^3.0.0",

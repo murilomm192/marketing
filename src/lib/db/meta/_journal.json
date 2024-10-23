@@ -57,6 +57,13 @@
       "when": 1728932395739,
       "tag": "0007_bitter_prowler",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1729649937063,
+      "tag": "0008_quiet_the_fallen",
+      "breakpoints": true
     }
   ]
 }

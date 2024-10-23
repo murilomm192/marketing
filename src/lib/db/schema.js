@@ -84,6 +84,15 @@ export const coleta_pdv = pgTable("coleta_pdv", {
   materiais: json('materiais')
 });
 
+export const coleta_direta = pgTable("coleta_direta", {
+  id: integer("id").primaryKey().notNull(),
+  eg: varchar("eg"),
+  nome_usuario: varchar("nome_usuario"),
+  data_visita: timestamp("data_visita", { mode: 'string' }),
+  materiais: json('materiais'),
+  fotos: json('fotos')
+});
+
 export const volume = pgTable('volume', {
   chave: varchar('chave').notNull(),
   ano: integer('ano').notNull(),
