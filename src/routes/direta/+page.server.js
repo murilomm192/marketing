@@ -85,7 +85,7 @@ export const actions = {
 
     const foto_array = await data.getAll('imagens')
 
-    const fotos = Promise.all(foto_array.map(async (foto) => {
+    const fotos = await Promise.all(foto_array.map(async (foto) => {
       const ok_foto = await upload_file(foto, 'Direta')
       return ok_foto
     })).then(async (values) => {
