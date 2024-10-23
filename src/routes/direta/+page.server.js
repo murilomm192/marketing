@@ -47,10 +47,10 @@ export const load = async () => {
   return { base_direta: base_direta }
 };
 
-function upload_file(file, bucket) {
+function upload_file(file, bucket, token) {
   return file.arrayBuffer()
     .then((r) =>
-      supabase.storage.from(bucket).upload(`${file.name.split('.').at(0)} - ${new Date().toLocaleString('en-GB').replaceAll('/', '-')}.${file.name.split('.').at(-1)}`, r, {
+      supabase.storage.from(bucket).uploadToSignedUrl(`${file.name.split('.').at(0)} - ${new Date().toLocaleString('en-GB').replaceAll('/', '-')}.${file.name.split('.').at(-1)}`, token, r, {
         upsert: true
       })
     );
@@ -81,12 +81,15 @@ export const actions = {
   upload: async ({ request }) => {
     const data = await request.formData();
 
+
     const dados = JSON.parse(data.get('dados'))
 
     const foto_array = await data.getAll('imagens')
 
     const fotos = await Promise.all(foto_array.map(async (foto) => {
-      const ok_foto = await upload_file(foto, 'Direta')
+      file_name = `${foto.name.split('.').at(0)} - ${new Date().toLocaleString('en-GB').replaceAll('/', '-')}.${foto.name.split('.').at(-1)}`
+      token = getSignedURL('Direta', file_name)
+      const ok_foto = await upload_file(foto, 'Direta', token)
       return ok_foto
     })).then(async (values) => {
       const upload = await db.insert(coleta_direta).values({
