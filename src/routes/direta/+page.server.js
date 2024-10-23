@@ -3,6 +3,12 @@ import { sql, eq, ilike, notInArray, inArray } from 'drizzle-orm';
 import postgres from 'postgres';
 import { cliente_direta, coleta_pdv, coleta_direta } from "$lib/db/schema.js"
 
+import { globalAgent } from 'https'
+
+globalAgent.options.keepAlive = false
+// or
+globalAgent.options.timeout = 60_000
+
 import {
   PUBLIC_DATABASE_URL,
   PUBLIC_SUPABASE_URL,
