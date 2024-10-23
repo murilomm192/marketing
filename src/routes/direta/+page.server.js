@@ -47,10 +47,10 @@ export const load = async () => {
   return { base_direta: base_direta }
 };
 
-function upload_file(file, bucket) {
+function upload_file(file, bucket, token) {
   return file.arrayBuffer()
     .then((r) =>
-      supabase.storage.from(bucket).upload(`${file.name.split('.').at(0)} - ${new Date().toLocaleString('en-GB').replaceAll('/', '-')}.${file.name.split('.').at(-1)}`, r, {
+      supabase.storage.from(bucket).uploadToSignedUrl(`${file.name.split('.').at(0)} - ${new Date().toLocaleString('en-GB').replaceAll('/', '-')}.${file.name.split('.').at(-1)}`, token, r, {
         upsert: true
       })
     );
@@ -69,6 +69,15 @@ function get_public_url(base, bucket, coluna) {
   return base_url
 }
 
+async function getSignedURL(bucket, file_name) {
+  const { data, error } = await supabase
+    .storage
+    .from(bucket)
+    .createSignedUploadUrl(file_name)
+
+  return data.token
+}
+
 export const actions = {
   upload: async ({ request }) => {
     const data = await request.formData();
@@ -77,39 +86,40 @@ export const actions = {
 
     const foto_array = await data.getAll('imagens')
 
-    // const fotos = Promise.all(foto_array.map(async (foto) => {
-    //   const ok_foto = await upload_file((foto), 'Direta')
-    //   return ok_foto
-    // })).then(async (values) => {
+    const fotos = Promise.all(foto_array.map(async (foto) => {
+      const token = await getSignedURL('Direta', `${foto.name.split('.').at(0)} - ${new Date().toLocaleString('en-GB').replaceAll('/', '-')}.${foto.name.split('.').at(-1)}`)
+      const ok_foto = await upload_file(foto, 'Direta', token)
+      return ok_foto
+    })).then(async (values) => {
+      const upload = await db.insert(coleta_direta).values({
+        eg: dados.loja,
+        nome_usuario: dados.nome,
+        data_visita: dados.data_visita,
+        materiais: dados.equipamentos.map((row) => {
+          return { marca: row.nome, equipamentos: row.equipamentos }
+        }),
+        fotos: (values.map((foto) => {
+          return foto.data.fullPath
+        }))
+      }).returning({ id: coleta_direta.id })
 
-    const upload = await db.insert(coleta_direta).values({
-      eg: dados.loja,
-      nome_usuario: dados.nome,
-      data_visita: dados.data_visita,
-      materiais: dados.equipamentos.map((row) => {
-        return { marca: row.nome, equipamentos: row.equipamentos }
-      }),
-      // fotos: (values.map((foto) => {
-      //   return foto.data.fullPath
-      // }))
-    }).returning({ id: coleta_direta.id })
+      console.log(upload)
 
-    console.log(upload)
+    })
 
+
+
+
+
+    // await data.getAll('imagens').map((file) => {
+    //   const { data, error } = supabase
+    //     .storage
+    //     .from('Direta')
+    //     .upload(file.name, file, {
+    //       cacheControl: '3600',
+    //       upsert: false
+    //     })
+    // })
   }
-
-
-
-
-
-  // await data.getAll('imagens').map((file) => {
-  //   const { data, error } = supabase
-  //     .storage
-  //     .from('Direta')
-  //     .upload(file.name, file, {
-  //       cacheControl: '3600',
-  //       upsert: false
-  //     })
-  // })
 }
 
