@@ -7,6 +7,7 @@
   import { Label } from "$lib/components/ui/label";
   import Calendar from "$lib/components/calendar.svelte";
   import Dropdown from "$lib/components/dropdown.svelte";
+  import { enhance } from "$app/forms";
 
   import brahma from "$lib/assets/brahma.png";
   import chopp from "$lib/assets/chopp.png";
@@ -44,12 +45,9 @@
 
   const supabase = createClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY);
 
-  let token;
-
-  function upload_file(file, bucket, token) {
-    console.log(file, bucket, token);
+  function upload_file(file, file_name, bucket, token) {
     return file.arrayBuffer().then((r) =>
-      supabase.storage.from(bucket).uploadToSignedUrl(file.name, token, r, {
+      supabase.storage.from(bucket).uploadToSignedUrl(file_name, token, r, {
         upsert: true,
       }),
     );
@@ -62,11 +60,23 @@
     return data.token;
   }
 
+  const generateUniqueID = (idLength) =>
+    [...Array(idLength).keys()]
+      .map((elem) => Math.random().toString(36).substr(2, 1))
+      .join("");
+
+  let files;
+
+  let paths_after_upload = [];
+
   async function uploadWithURL(e) {
-    const files = Array.from(e.target.files);
-    const upload = files.map(async (file) => {
-      const token = await getSignedURLs("Direta", file.name);
-      console.log(await upload_file(file, "Direta", token));
+    const files_picked = Array.from(e.target.files);
+
+    const upload = files_picked.map(async (file) => {
+      const file_name = `${generateUniqueID(6)}.${file.name.split(".").at(-1)}`;
+      const token = await getSignedURLs("Direta", file_name);
+      await upload_file(file, file_name, "Direta", token);
+      paths_after_upload.push(file_name);
     });
   }
 
@@ -77,44 +87,6 @@
   let uf_selecinado;
   let rede_selecionada;
   let loja_selecionada;
-
-  import Compressor from "compressorjs";
-
-  let files;
-
-  function compressImage(e) {
-    let filesFromElement = e.target.files;
-    const dt = new DataTransfer();
-
-    if (!filesFromElement) return;
-
-    for (let i = 0; i < filesFromElement.length; i++) {
-      new Compressor(filesFromElement[i], {
-        quality: 0.6,
-        height: 1000,
-        strict: true,
-        success(result) {
-          let file;
-          let name = result.name;
-          let type = result.type;
-
-          if (result) {
-            file = new File([result], "compressed_" + name, { type });
-          } else {
-            file = result;
-          }
-
-          dt.items.add(file);
-        },
-
-        error(err) {
-          console.log(err.message);
-        },
-      });
-    }
-    files = dt.files;
-    console.log(files);
-  }
 
   $: uf = removeDuplicates("uf", data.base_direta).map((row) => {
     return {
@@ -188,10 +160,11 @@
     data_visita: data_visita.toLocaleString("pt-BR"),
     loja: loja_selecionada,
     equipamentos: levantamento,
+    caminhos: paths_after_upload,
   });
 </script>
 
-<form method="POST" action="?/upload" enctype="multipart/form-data">
+<form method="POST" action="?/upload" enctype="multipart/form-data" use:enhance>
   <div class="p-4">
     <input type="hidden" bind:value={retorno} name="dados" />
     <h2 class="font-bold text-xl">Lojas Direta</h2>
@@ -230,13 +203,11 @@
         />
       </div>
     </div>
-    {token}
     <div
       class="my-4 py-2 space-x-1 flex border rounded-lg border-slate-400 items-center text-wrap max-h-14 justify-center"
     >
       <input
         type="file"
-        name="imagens"
         id="actual-imagens"
         multiple="multiple"
         accept="capture=camera,image/*"

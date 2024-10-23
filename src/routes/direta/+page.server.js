@@ -82,45 +82,24 @@ export const actions = {
     const data = await request.formData();
 
 
-    const dados = JSON.parse(data.get('dados'))
+    console.log(data)
 
-    const foto_array = await data.getAll('imagens')
+    const dados = await JSON.parse(data.get('dados'))
 
-    const fotos = await Promise.all(foto_array.map(async (foto) => {
-      file_name = `${foto.name.split('.').at(0)} - ${new Date().toLocaleString('en-GB').replaceAll('/', '-')}.${foto.name.split('.').at(-1)}`
-      token = getSignedURL('Direta', file_name)
-      const ok_foto = await upload_file(foto, 'Direta', token)
-      return ok_foto
-    })).then(async (values) => {
-      const upload = await db.insert(coleta_direta).values({
-        eg: dados.loja,
-        nome_usuario: dados.nome,
-        data_visita: dados.data_visita,
-        materiais: dados.equipamentos.map((row) => {
-          return { marca: row.nome, equipamentos: row.equipamentos }
-        }),
-        fotos: (values.map((foto) => {
-          return foto.data.fullPath
-        }))
-      }).returning({ id: coleta_direta.id })
+    console.log(dados)
 
-      console.log(upload)
+    const upload = await db.insert(coleta_direta).values({
+      eg: dados.loja,
+      nome_usuario: dados.nome,
+      data_visita: dados.data_visita,
+      materiais: dados.equipamentos.map((row) => {
+        return { marca: row.nome, equipamentos: row.equipamentos }
+      }),
+      fotos: dados.caminhos
+    }).returning({ id: coleta_direta.id })
 
-    })
+    console.log(upload)
 
-
-
-
-
-    // await data.getAll('imagens').map((file) => {
-    //   const { data, error } = supabase
-    //     .storage
-    //     .from('Direta')
-    //     .upload(file.name, file, {
-    //       cacheControl: '3600',
-    //       upsert: false
-    //     })
-    // })
   }
 }
 
