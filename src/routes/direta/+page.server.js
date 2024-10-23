@@ -47,10 +47,10 @@ export const load = async () => {
   return { base_direta: base_direta }
 };
 
-function upload_file(file, bucket, token) {
+function upload_file(file, bucket) {
   return file.arrayBuffer()
     .then((r) =>
-      supabase.storage.from(bucket).uploadToSignedUrl(`${file.name.split('.').at(0)} - ${new Date().toLocaleString('en-GB').replaceAll('/', '-')}.${file.name.split('.').at(-1)}`, token, r, {
+      supabase.storage.from(bucket).upload(`${file.name.split('.').at(0)} - ${new Date().toLocaleString('en-GB').replaceAll('/', '-')}.${file.name.split('.').at(-1)}`, r, {
         upsert: true
       })
     );
@@ -86,9 +86,7 @@ export const actions = {
     const foto_array = await data.getAll('imagens')
 
     const fotos = Promise.all(foto_array.map(async (foto) => {
-      const token = await getSignedURL('Direta', `${foto.name.split('.').at(0)} - ${new Date().toLocaleString('en-GB').replaceAll('/', '-')}.${foto.name.split('.').at(-1)}`)
-      const ok_foto = await upload_file(foto, 'Direta', token)
-      console.log(foto, token)
+      const ok_foto = await upload_file(foto, 'Direta')
       return ok_foto
     })).then(async (values) => {
       const upload = await db.insert(coleta_direta).values({
@@ -99,7 +97,6 @@ export const actions = {
           return { marca: row.nome, equipamentos: row.equipamentos }
         }),
         fotos: (values.map((foto) => {
-          console.log(foto)
           return foto.data.fullPath
         }))
       }).returning({ id: coleta_direta.id })
