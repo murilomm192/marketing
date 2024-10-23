@@ -77,28 +77,24 @@ export const actions = {
 
     const foto_array = await data.getAll('imagens')
 
-    const fotos = Promise.all(foto_array.map(async (foto) => {
-      const ok_foto = await upload_file((foto), 'Direta')
-      return ok_foto
-    })).then(async (values) => {
+    // const fotos = Promise.all(foto_array.map(async (foto) => {
+    //   const ok_foto = await upload_file((foto), 'Direta')
+    //   return ok_foto
+    // })).then(async (values) => {
 
+    const upload = await db.insert(coleta_direta).values({
+      eg: dados.loja,
+      nome_usuario: dados.nome,
+      data_visita: dados.data_visita,
+      materiais: dados.equipamentos.map((row) => {
+        return { marca: row.nome, equipamentos: row.equipamentos }
+      }),
+      // fotos: (values.map((foto) => {
+      //   return foto.data.fullPath
+      // }))
+    }).returning({ id: coleta_direta.id })
 
-
-      const upload = await db.insert(coleta_direta).values({
-        eg: dados.loja,
-        nome_usuario: dados.nome,
-        data_visita: dados.data_visita,
-        materiais: dados.equipamentos.map((row) => {
-          return { marca: row.nome, equipamentos: row.equipamentos }
-        }),
-        fotos: (values.map((foto) => {
-          return foto.data.fullPath
-        }))
-      }).returning({ id: coleta_direta.id })
-
-      console.log(upload)
-
-    })
+    console.log(upload)
 
   }
 
