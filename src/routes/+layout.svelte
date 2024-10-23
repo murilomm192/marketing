@@ -1,5 +1,10 @@
 <script lang="ts">
-    import "../app.pcss";
-  </script>
-   
-  <slot />
+  import "../app.pcss";
+
+  import { Agent, setGlobalDispatcher } from "undici";
+
+  setGlobalDispatcher(new Agent({ connect: { timeout: 60000 } }));
+</script>
+
+<slot />
+

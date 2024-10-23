@@ -3,11 +3,6 @@ import { sql, eq, ilike, notInArray, inArray } from 'drizzle-orm';
 import postgres from 'postgres';
 import { cliente_direta, coleta_pdv, coleta_direta } from "$lib/db/schema.js"
 
-import { globalAgent } from 'https'
-
-globalAgent.options.keepAlive = false
-// or
-globalAgent.options.timeout = 60_000
 
 import {
   PUBLIC_DATABASE_URL,
@@ -18,7 +13,7 @@ import {
 
 import { createClient } from '@supabase/supabase-js';
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+//process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 const supabase = createClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY);
 
