@@ -263,10 +263,11 @@
         ></svg
       >
       <label for="actual-imagens" class="font-normal text-md text-bold"
-        >{"Selecione as fotos da Galeria"}</label
+        >{files
+          ? files.length + " Arquivos"
+          : "Selecione as fotos da Galeria (Máximo 2Mb)"}</label
       >
     </div>
-
     <p class="font-bold">Materiais</p>
     <Accordion.Root>
       {#each levantamento as marca}
@@ -326,7 +327,11 @@
       {/each}
     </Accordion.Root>
   </div>
-  <Button type="submit" class="mx-6 mx-auto block justify-center w-5/6" disabled={disableButton}>
+  <Button
+    type="submit"
+    class="mx-6 mx-auto block justify-center w-5/6"
+    disabled={disableButton}
+  >
     <Label>Enviar</Label></Button
   >
 </form>
