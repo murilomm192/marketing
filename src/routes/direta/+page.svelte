@@ -171,7 +171,7 @@
   });
 </script>
 
-<form method="POST" action="?/upload" enctype="multipart/form-data" use:enhance>
+<form method="POST" action="?/upload" enctype="multipart/form-data">
   <div class="p-4">
     <input type="hidden" bind:value={retorno} name="dados" />
     <h2 class="font-bold text-xl">Lojas Direta</h2>
