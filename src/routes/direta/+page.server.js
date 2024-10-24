@@ -81,12 +81,7 @@ export const actions = {
   upload: async ({ request }) => {
     const data = await request.formData();
 
-
-    console.log(data)
-
     const dados = await JSON.parse(data.get('dados'))
-
-    console.log(dados)
 
     const upload = await db.insert(coleta_direta).values({
       eg: dados.loja,
@@ -96,10 +91,9 @@ export const actions = {
         return { marca: row.nome, equipamentos: row.equipamentos }
       }),
       fotos: dados.caminhos
-    }).returning({ id: coleta_direta.id })
+    }).returning({ id: coleta_direta.id, caminhos: coleta_direta.fotos })
 
     console.log(upload)
-
   }
 }
 

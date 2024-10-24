@@ -77,8 +77,8 @@
     const upload = files_picked.map(async (file) => {
       const file_name = `${generateUniqueID(6)}.${file.name.split(".").at(-1)}`;
       const token = await getSignedURLs("Direta", file_name);
-      await upload_file(file, file_name, "Direta", token);
-      paths_after_upload.push(file_name);
+      const upload = await upload_file(file, file_name, "Direta", token);
+      paths_after_upload = [...paths_after_upload, file_name];
     });
 
     disableButton = true;
