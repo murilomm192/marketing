@@ -10,20 +10,20 @@
   import { enhance } from "$app/forms";
 
   import brahma from "$lib/assets/brahma.png";
-  import chopp from "$lib/assets/chopp.png";
+  // import chopp from "$lib/assets/chopp.png";
   import beats from "$lib/assets/beats.png";
   import bud from "$lib/assets/bud.png";
   import corona from "$lib/assets/corona.png";
   import spaten from "$lib/assets/spaten.png";
   import guarana from "$lib/assets/guarana.png";
   import stella from "$lib/assets/stella.png";
-  import skol from "$lib/assets/skol.png";
+  // import skol from "$lib/assets/skol.png";
   import concorrencia from "$lib/assets/concorrencia.png";
   import proprio from "$lib/assets/proprio.png";
-  import antarctica from "$lib/assets/antarctica.png";
+  // import antarctica from "$lib/assets/antarctica.png";
   import bdm from "$lib/assets/bdm.png";
-  import bohemia from "$lib/assets/bohemia.png";
-  import original from "$lib/assets/original.png";
+  // import bohemia from "$lib/assets/bohemia.png";
+  // import original from "$lib/assets/original.png";
   import pepsi from "$lib/assets/pepsi.png";
 
   import { depara_operações } from "$lib/stores";
@@ -134,18 +134,18 @@
 
   let brands = [
     { nome: "Brahma", asset: brahma },
-    { nome: "Chopp", asset: chopp },
+    // { nome: "Chopp", asset: chopp },
     { nome: "Bud", asset: bud },
     { nome: "Corona", asset: corona },
     { nome: "Spaten", asset: spaten },
     { nome: "Beats", asset: beats },
     { nome: "Guarana", asset: guarana },
     { nome: "Stella", asset: stella },
-    { nome: "Skol", asset: skol },
-    { nome: "Antarctica", asset: antarctica },
+    // { nome: "Skol", asset: skol },
+    // { nome: "Antarctica", asset: antarctica },
     { nome: "Bdm", asset: bdm },
-    { nome: "Bohemia", asset: bohemia },
-    { nome: "Original", asset: original },
+    // { nome: "Bohemia", asset: bohemia },
+    // { nome: "Original", asset: original },
     { nome: "Pepsi", asset: pepsi },
     { nome: "Concorrência", asset: concorrencia },
     { nome: "Próprio", asset: proprio },
