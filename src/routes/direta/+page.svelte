@@ -190,8 +190,6 @@
   }}
 >
   <div class="p-4">
-    <pre>{JSON.stringify(data)}</pre>
-    <pre>{JSON.stringify(rede)}</pre>
     <input type="hidden" bind:value={retorno} name="dados" />
     <h2 class="font-bold text-xl">Lojas Direta</h2>
     <h1 class="mb-4">Levantamento de Materiais de Trade</h1>
