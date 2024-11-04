@@ -105,24 +105,27 @@
     };
   });
 
-  $: rede = removeDuplicates("rede", data.base_direta)
-    .filter((row) => row.uf === uf_selecinado)
-    .map((row) => {
-      return {
-        value: row.rede,
-        name: row.rede,
-      };
-    });
+  $: rede = removeDuplicates(
+    "rede",
+    data.base_direta.filter((row) => row.uf === uf_selecinado),
+  ).map((row) => {
+    return {
+      value: row.rede,
+      name: row.rede,
+    };
+  });
 
-  $: loja = removeDuplicates("nome_fantasia", data.base_direta)
-    .filter((row) => row.rede === rede_selecionada)
-    .filter((row) => row.uf === uf_selecinado)
-    .map((row) => {
-      return {
-        value: row.eg,
-        name: row.nome_fantasia,
-      };
-    });
+  $: loja = removeDuplicates(
+    "nome_fantasia",
+    data.base_direta
+      .filter((row) => row.rede === rede_selecionada)
+      .filter((row) => row.uf === uf_selecinado),
+  ).map((row) => {
+    return {
+      value: row.eg,
+      name: row.nome_fantasia,
+    };
+  });
 
   let equipamentos = [
     "Ponta de Gôndula",
@@ -187,6 +190,8 @@
   }}
 >
   <div class="p-4">
+    <pre>{JSON.stringify(data)}</pre>
+    <pre>{JSON.stringify(rede)}</pre>
     <input type="hidden" bind:value={retorno} name="dados" />
     <h2 class="font-bold text-xl">Lojas Direta</h2>
     <h1 class="mb-4">Levantamento de Materiais de Trade</h1>
@@ -353,16 +358,20 @@
 <Dialog.Root bind:open={showConfirmation}>
   <Dialog.Portal>
     <Dialog.Overlay class="fixed inset-0 bg-black/50" />
-    <Dialog.Content class="fixed left-[50%] top-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-white p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none">
+    <Dialog.Content
+      class="fixed left-[50%] top-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-white p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none"
+    >
       <Dialog.Title class="text-xl font-semibold">Sucesso!</Dialog.Title>
       <Dialog.Description class="mt-4">
         Formulário enviado com sucesso.
       </Dialog.Description>
       <div class="mt-6 flex justify-end">
-        <Button on:click={() => {
-          showConfirmation = false;
-          window.location.reload();
-        }}>
+        <Button
+          on:click={() => {
+            showConfirmation = false;
+            window.location.reload();
+          }}
+        >
           OK
         </Button>
       </div>
