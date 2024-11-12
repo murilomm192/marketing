@@ -128,7 +128,7 @@
   });
 
   let equipamentos = [
-    "Ponta de Gôndula",
+    "Ponta de Gôndola",
     "Digital Signature",
     "GCAT",
     "Rack",
