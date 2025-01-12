@@ -36,7 +36,6 @@
   } from "@internationalized/date";
 
   let dados = [];
-
   const depara = depara_operações.subscribe((value) => (dados = value));
 
   let arquivos_cardapio;

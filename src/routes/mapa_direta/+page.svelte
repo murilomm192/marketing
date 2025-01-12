@@ -1,96 +1,55 @@
-<script>
-  import { onMount } from "svelte";
-  import "leaflet/dist/leaflet.css";
+<script lang="typescript">
+  import Mapa from "$lib/components/mapa_direta.svelte";
+  import BarChart from "$lib/components/barChart.svelte";
+  import { Button } from "$lib/components/ui/button/index.js";
+  import Carrousel from "$lib/components/carrousel.svelte";
+  import Dropdown from "$lib/components/dropdown.svelte";
+  import { Label } from "$lib/components/ui/label";
+  import TableMapa from "$lib/components/tableMapa.svelte";
+  import { Card } from "$lib/components/ui/card";
+  export let data;
 
-  let map;
-  const attractions = [
-    {
-      name: "Cristo Redentor",
-      address:
-        "Parque Nacional da Tijuca - Alto da Boa Vista, Rio de Janeiro - RJ",
-      coords: [-22.9519, -43.2105],
-      description: "One of the New Seven Wonders of the World",
-    },
-    {
-      name: "Pão de Açúcar",
-      address: "Urca, Rio de Janeiro - RJ",
-      coords: [-22.9492, -43.1545],
-      description: "Iconic cable car and stunning views of Rio",
-    },
-    {
-      name: "Cataratas do Iguaçu",
-      address: "Foz do Iguaçu - PR",
-      coords: [-25.6953, -54.4367],
-      description: "Magnificent waterfalls on Brazil-Argentina border",
-    },
-    {
-      name: "Pelourinho",
-      address: "Centro Histórico, Salvador - BA",
-      coords: [-12.974, -38.5089],
-      description: "Historic center with colonial architecture",
-    },
-    {
-      name: "Teatro Amazonas",
-      address: "Largo de São Sebastião - Centro, Manaus - AM",
-      coords: [-3.1302, -60.0234],
-      description: "Historic opera house in the Amazon",
-    },
-  ];
+  export let selected_pdv = data.coletas[1];
 
-  onMount(() => {
-    // We need to dynamically import Leaflet because it requires window object
-    import("leaflet").then((L) => {
-      // Create map centered on Brazil
-      map = L.map("map").setView([-14.235, -51.9253], 4);
+  $: points = data.coletas.map((row) => ({
+    lngLat: [row.latitude, row.longitude],
+    eg: row.eg,
+    nome: row.nome_fantasia,
+    segmento: row.segmento,
+  }));
 
-      // Add OpenStreetMap tiles
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: "© OpenStreetMap contributors",
-      }).addTo(map);
-
-      // Add markers for each attraction
-      attractions.forEach((attraction) => {
-        const marker = L.marker(attraction.coords).addTo(map);
-        marker.bindPopup(
-          `<b>${attraction.name}</b><br>${attraction.description}`,
-        );
-      });
-    });
-  });
+  $: eg_selecionado = data.eg.filter((row) => row.eg == selected_pdv.eg);
+  $: visitas = eg_selecionado.map((row) => row.data_visita);
 </script>
 
-<div class="container mx-auto px-4 py-8">
-  <h1 class="text-3xl font-bold text-center mb-8 text-blue-800">
-    Tourist Attractions in Brazil
-  </h1>
-
-  <!-- Map Container -->
-  <div class="mb-8 rounded-lg overflow-hidden shadow-lg">
-    <div id="map" class="h-[400px] w-full"></div>
+<div class="w-full h-screen relative">
+  <div class="w-full h-full absolute top-0 left-0 z-0">
+    <Mapa {points} bind:selected_pdv />
   </div>
+  <div
+    class="absolute top-0 left-0 z-10 w-1/3 max-h-screen overflow-y-auto bg-slate-200 space-y-2 p-2"
+  >
+    <div class="bg-blue-700 rounded-lg">
+      <h1 class="text-center font-bold text-slate-200">
+        {selected_pdv.title}
+      </h1>
+    </div>
+    <Card class="bg-white bg-opacity-90 p-4 text-center"></Card>
 
-  <!-- Attractions List -->
-  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-    {#each attractions as attraction}
-      <div
-        class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
-      >
-        <h2 class="text-xl font-semibold text-blue-800 mb-2">
-          {attraction.name}
-        </h2>
-        <p class="text-gray-600 mb-2">
-          {attraction.address}
-        </p>
-        <p class="text-gray-700">
-          {attraction.description}
-        </p>
-      </div>
-    {/each}
+    <Card class="bg-white bg-opacity-90 p-4">
+      <div class="my-2 mb-2"></div>
+      <div class="h-[200px]"></div>
+    </Card>
+
+    <Card class="bg-white bg-opacity-90 p-4">
+      <h2 class="font-bold mt-4">Materiais</h2>
+      <div class="px-2"></div>
+    </Card>
+
+    <Card class="bg-white bg-opacity-90 p-4">
+      <h2 class="font-bold mt-4">Imagens</h2>
+      <div class="max-w-full items-center align-middle"></div>
+      <h1>{JSON.stringify(visitas)}</h1>
+    </Card>
   </div>
 </div>
-
-<style>
-  :global(.leaflet-container) {
-    z-index: 0;
-  }
-</style>
