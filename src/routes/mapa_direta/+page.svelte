@@ -266,15 +266,25 @@
     <Mapa {points} bind:selected_pdv />
   </div>
   <div
-    class="absolute top-0 left-0 z-10 w-1/3 max-h-screen overflow-y-auto bg-slate-200 space-y-2 p-2"
+    class="absolute top-0 left-0 z-10 w-full md:w-1/3 p-4 overflow-y-auto max-h-screen"
   >
     <div class="bg-blue-700 rounded-lg p-2">
       <h1 class="text-center font-bold text-slate-200 text-xl">
         {selected_pdv.nome_fantasia || "Selecione um PDV no mapa"}
       </h1>
-      <p class="text-center text-slate-200">
-        EG: {selected_pdv.eg || "N/A"}
-      </p>
+    </div>
+    
+    <div class="mb-2 mt-2">
+      <a href="/direta">
+        <Button variant="outline" class="w-full bg-white bg-opacity-90">
+          <span class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
+            </svg>
+            Ir para Levantamento de Materiais
+          </span>
+        </Button>
+      </a>
     </div>
 
     <Tabs defaultValue="info" class="w-full">
