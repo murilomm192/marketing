@@ -20,6 +20,7 @@
     TabsList,
     TabsTrigger,
   } from "$lib/components/ui/tabs/index.js";
+  import * as Dialog from "$lib/components/ui/dialog";
 
   import brahma from "$lib/assets/brahma.png";
   // import chopp from "$lib/assets/chopp.png";
@@ -59,6 +60,11 @@
 
   export let data;
 
+  let selectedImage = null;
+  let imageModalOpen = false;
+  let imageModalTitle = "";
+  let imageRotation = 0;
+  
   export let selected_pdv = data.coletas[0] || {};
 
   $: points = data.coletas.map((row) => ({
@@ -73,6 +79,10 @@
     tamanho_loja: row.tamanho_loja,
     status_loja: row.status_loja,
   }));
+  
+  let pdv_details = [];
+  let selected_visit_id = null;
+  let selected_visit = null;
 
   $: pdv_details = data.eg_details.filter((row) => row.eg === selected_pdv.eg);
   $: latest_visit =
@@ -81,9 +91,6 @@
     data.clientes.find((row) => row.eg === selected_pdv.eg) || {};
 
   // Add a variable to store the selected visit
-  let selected_visit_id = "";
-  let selected_visit = null;
-
   // Update selected_visit whenever selected_visit_id or pdv_details changes
   $: {
     if (selected_visit_id && pdv_details) {
@@ -557,7 +564,12 @@
                     {#if photo}
                       <button
                         class="relative aspect-square overflow-hidden rounded-md border border-gray-200 hover:opacity-90 transition-opacity"
-                        on:click={() => window.open(photo, "_blank")}
+                        on:click={() => {
+                          selectedImage = photo;
+                          imageModalOpen = true;
+                          imageModalTitle = `Foto ${i + 1}`;
+                          imageRotation = 0;
+                        }}
                       >
                         <img
                           src={photo}
@@ -586,7 +598,12 @@
                             {#if typeof photoUrl === "string" && photoUrl}
                               <button
                                 class="relative aspect-square overflow-hidden rounded-md border border-gray-200 hover:opacity-90 transition-opacity"
-                                on:click={() => window.open(photoUrl, "_blank")}
+                                on:click={() => {
+                                  selectedImage = photoUrl;
+                                  imageModalOpen = true;
+                                  imageModalTitle = `${category} - ${label}`;
+                                  imageRotation = 0;
+                                }}
                               >
                                 <img
                                   src={photoUrl}
@@ -625,3 +642,49 @@
     </Tabs>
   </div>
 </div>
+
+<Dialog.Root bind:open={imageModalOpen}>
+  <Dialog.Portal>
+    <Dialog.Overlay class="fixed inset-0 bg-black/50" />
+    <Dialog.Content
+      class="fixed left-[50%] top-[50%] max-h-[85vh] w-[90vw] max-w-[90vw] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-white p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none"
+    >
+      <Dialog.Title class="text-xl font-semibold mb-4">{imageModalTitle}</Dialog.Title>
+      <div class="flex justify-center items-center max-h-[70vh] overflow-hidden">
+        <img
+          src={selectedImage}
+          alt={imageModalTitle}
+          style={`transform: rotate(${imageRotation}deg); transition: transform 0.3s ease;`}
+          class="max-w-full max-h-[70vh] object-contain"
+        />
+      </div>
+      <div class="mt-6 flex justify-between">
+        <Button
+          variant="outline"
+          on:click={() => {
+            imageRotation = (imageRotation + 90) % 360;
+          }}
+          class="flex items-center gap-2"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+          Rotacionar 90°
+        </Button>
+        <Button
+          variant="outline"
+          on:click={() => {
+            imageModalOpen = false;
+            selectedImage = null;
+          }}
+          class="flex items-center gap-2"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+          Fechar
+        </Button>
+      </div>
+    </Dialog.Content>
+  </Dialog.Portal>
+</Dialog.Root>
