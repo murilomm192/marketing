@@ -139,6 +139,13 @@
   <div
     class="absolute top-0 left-0 z-10 w-1/3 max-h-screen overflow-y-auto bg-slate-200 space-y-2 p-2"
   >
+    <div class="flex justify-start mb-2">
+      <Button href="/" variant="secondary" size="sm" class="flex items-center gap-1">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+        Voltar
+      </Button>
+    </div>
+    
     {#if selected_pdv}
       <div class="bg-blue-700 rounded-lg">
         <h1 class="text-center font-bold text-slate-200">

@@ -82,202 +82,45 @@
     }
   }
 
-  let materiais = [
-    {
-      marca: "Brahma Chopp",
-      logo: brahma,
-      qtd_materiais: {
-        "Jogos de Mesa": 0,
-        Cervegela: 0,
-        Ombrelone: 0,
-        Luminoso: 0,
-        Geladeira: 0,
-        Chopeira: 0,
-      },
-    },
-    {
-      marca: "Duplo Malte",
-      logo: bdm,
-      qtd_materiais: {
-        "Jogos de Mesa": 0,
-        Cervegela: 0,
-        Ombrelone: 0,
-        Luminoso: 0,
-        Geladeira: 0,
-        Chopeira: 0,
-      },
-    },
-    {
-      marca: "Chopp Brahma",
-      logo: chopp,
-      qtd_materiais: {
-        "Jogos de Mesa": 0,
-        Cervegela: 0,
-        Ombrelone: 0,
-        Luminoso: 0,
-        Geladeira: 0,
-        Chopeira: 0,
-      },
-    },
-    {
-      marca: "Budweiser",
-      logo: bud,
-      qtd_materiais: {
-        "Jogos de Mesa": 0,
-        Cervegela: 0,
-        Ombrelone: 0,
-        Luminoso: 0,
-        Geladeira: 0,
-        Chopeira: 0,
-      },
-    },
-    {
-      marca: "Corona",
-      logo: corona,
-      qtd_materiais: {
-        "Jogos de Mesa": 0,
-        Cervegela: 0,
-        Ombrelone: 0,
-        Luminoso: 0,
-        Geladeira: 0,
-        Chopeira: 0,
-      },
-    },
-    {
-      marca: "Stella Artois",
-      logo: stella,
-      qtd_materiais: {
-        "Jogos de Mesa": 0,
-        Cervegela: 0,
-        Ombrelone: 0,
-        Luminoso: 0,
-        Geladeira: 0,
-        Chopeira: 0,
-      },
-    },
-    {
-      marca: "Spaten",
-      logo: spaten,
-      qtd_materiais: {
-        "Jogos de Mesa": 0,
-        Cervegela: 0,
-        Ombrelone: 0,
-        Luminoso: 0,
-        Geladeira: 0,
-        Chopeira: 0,
-      },
-    },
-    {
-      marca: "Skol",
-      logo: skol,
-      qtd_materiais: {
-        "Jogos de Mesa": 0,
-        Cervegela: 0,
-        Ombrelone: 0,
-        Luminoso: 0,
-        Geladeira: 0,
-        Chopeira: 0,
-      },
-    },
-    {
-      marca: "Skol Beats",
-      logo: beats,
-      qtd_materiais: {
-        "Jogos de Mesa": 0,
-        Cervegela: 0,
-        Ombrelone: 0,
-        Luminoso: 0,
-        Geladeira: 0,
-        Chopeira: 0,
-      },
-    },
+  // Define material types in a single place
+  const materialTypes = ["Jogos de Mesa", "Cervegela", "Ombrelone", "Luminoso", "Geladeira", "Chopeira"];
+  
+  // Function to create a material object with default values
+  function createMaterial(marca, logo) {
+    const qtd_materiais = {};
+    materialTypes.forEach(type => {
+      qtd_materiais[type] = 0;
+    });
+    
+    return {
+      marca,
+      logo,
+      qtd_materiais
+    };
+  }
 
-    {
-      marca: "Antarctica",
-      logo: antarctica,
-      qtd_materiais: {
-        "Jogos de Mesa": 0,
-        Cervegela: 0,
-        Ombrelone: 0,
-        Luminoso: 0,
-        Geladeira: 0,
-        Chopeira: 0,
-      },
-    },
-    {
-      marca: "Bohemia",
-      logo: bohemia,
-      qtd_materiais: {
-        "Jogos de Mesa": 0,
-        Cervegela: 0,
-        Ombrelone: 0,
-        Luminoso: 0,
-        Geladeira: 0,
-        Chopeira: 0,
-      },
-    },
-    {
-      marca: "Original",
-      logo: original,
-      qtd_materiais: {
-        "Jogos de Mesa": 0,
-        Cervegela: 0,
-        Ombrelone: 0,
-        Luminoso: 0,
-        Geladeira: 0,
-        Chopeira: 0,
-      },
-    },
-    {
-      marca: "Guarana Antarctica",
-      logo: guarana,
-      qtd_materiais: {
-        "Jogos de Mesa": 0,
-        Cervegela: 0,
-        Ombrelone: 0,
-        Luminoso: 0,
-        Geladeira: 0,
-        Chopeira: 0,
-      },
-    },
-    {
-      marca: "Pepsi",
-      logo: pepsi,
-      qtd_materiais: {
-        "Jogos de Mesa": 0,
-        Cervegela: 0,
-        Ombrelone: 0,
-        Luminoso: 0,
-        Geladeira: 0,
-        Chopeira: 0,
-      },
-    },
-
-    {
-      marca: "Concorrência",
-      logo: concorrencia,
-      qtd_materiais: {
-        "Jogos de Mesa": 0,
-        Cervegela: 0,
-        Ombrelone: 0,
-        Luminoso: 0,
-        Geladeira: 0,
-        Chopeira: 0,
-      },
-    },
-    {
-      marca: "Próprio",
-      logo: proprio,
-      qtd_materiais: {
-        "Jogos de Mesa": 0,
-        Cervegela: 0,
-        Ombrelone: 0,
-        Luminoso: 0,
-        Geladeira: 0,
-        Chopeira: 0,
-      },
-    },
+  // Define brand configurations
+  const brandConfigs = [
+    { marca: "Brahma Chopp", logo: brahma },
+    { marca: "Duplo Malte", logo: bdm },
+    { marca: "Chopp Brahma", logo: chopp },
+    { marca: "Budweiser", logo: bud },
+    { marca: "Corona", logo: corona },
+    { marca: "Stella Artois", logo: stella },
+    { marca: "Spaten", logo: spaten },
+    { marca: "Skol", logo: skol },
+    { marca: "Skol Beats", logo: beats },
+    { marca: "Antarctica", logo: antarctica },
+    { marca: "Bohemia", logo: bohemia },
+    { marca: "Original", logo: original },
+    { marca: "Guarana Antarctica", logo: guarana },
+    { marca: "Pepsi", logo: pepsi },
+    { marca: "Concorrência", logo: concorrencia },
+    { marca: "Próprio", logo: proprio }
   ];
+
+  // Generate the materiais array using the function and configurations
+  let materiais = brandConfigs.map(config => createMaterial(config.marca, config.logo));
 
   let name;
   let data_visita = today(getLocalTimeZone());
@@ -314,8 +157,11 @@
 <form method="POST" action="?/upload" enctype="multipart/form-data">
   <input type="hidden" name="dados" bind:value={dados_finais} />
   <div class="flex sm:m-6 m-1 font-bold justify-center">
-    <Card.Root class="sm:w-3/4 w-full">
-      <Card.Header>
+    <Card.Root class="sm:w-3/4 w-full p-2">
+      <Card.Header class="relative">
+        <div class="absolute top-0 right-0">
+          <Button href="/mapa" variant="outline" size="sm"><Label>Ver Mapa</Label></Button>
+        </div>
         <Card.Title>Levantamento PDVs</Card.Title>
         <Card.Description
           >Salve as informações do PDV para consulta</Card.Description

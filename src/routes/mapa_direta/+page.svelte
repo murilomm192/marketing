@@ -64,7 +64,7 @@
   let imageModalOpen = false;
   let imageModalTitle = "";
   let imageRotation = 0;
-  
+
   export let selected_pdv = data.coletas[0] || {};
 
   $: points = data.coletas.map((row) => ({
@@ -79,7 +79,7 @@
     tamanho_loja: row.tamanho_loja,
     status_loja: row.status_loja,
   }));
-  
+
   let pdv_details = [];
   let selected_visit_id = null;
   let selected_visit = null;
@@ -183,35 +183,37 @@
     }
 
     // First, collect all unique equipment types across all materials
-    const allEquipmentTypes = [...new Set(
-      materials
-        .flatMap(item => item.equipamentos ? Object.keys(item.equipamentos) : [])
-    )].sort();
+    const allEquipmentTypes = [
+      ...new Set(
+        materials.flatMap((item) =>
+          item.equipamentos ? Object.keys(item.equipamentos) : [],
+        ),
+      ),
+    ].sort();
 
-    return materials.map(item => {
+    return materials.map((item) => {
       // Start with the marca
       const result = { marca: item.marca };
-      
+
       // Add all equipment properties directly to the result object
       if (item.equipamentos) {
         // First add all equipment types with their actual values
         Object.entries(item.equipamentos).forEach(([equipType, value]) => {
-          result[equipType] =  parseInt(value);
+          result[equipType] = parseInt(value);
         });
-        
         // Then ensure all equipment types are present (even if not in this item)
-        allEquipmentTypes.forEach(equipType => {
+        allEquipmentTypes.forEach((equipType) => {
           if (result[equipType] === undefined) {
             result[equipType] = 0;
           }
         });
       } else {
         // If no equipamentos, add all equipment types with zero values
-        allEquipmentTypes.forEach(equipType => {
+        allEquipmentTypes.forEach((equipType) => {
           result[equipType] = 0;
         });
       }
-      
+
       return result;
     });
   }
@@ -280,13 +282,24 @@
         {selected_pdv.nome_fantasia || "Selecione um PDV no mapa"}
       </h1>
     </div>
-    
+
     <div class="mb-2 mt-2">
       <a href="/direta">
         <Button variant="outline" class="w-full bg-white bg-opacity-90">
           <span class="flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5 mr-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M11 17l-5-5m0 0l5-5m-5 5h12"
+              />
             </svg>
             Ir para Levantamento de Materiais
           </span>
@@ -302,7 +315,6 @@
       </TabsList>
 
       <TabsContent value="info">
-        
         <Card class="bg-white bg-opacity-90 p-4">
           <CardHeader>
             <CardTitle>Detalhes do PDV</CardTitle>
@@ -424,8 +436,10 @@
           </CardHeader>
           <CardContent>
             {#if latest_visit && latest_visit.materiais && Array.isArray(latest_visit.materiais)}
-              {@const flattenedMaterials = convertMaterialsFormat(latest_visit.materiais)}
-              
+              {@const flattenedMaterials = convertMaterialsFormat(
+                latest_visit.materiais,
+              )}
+
               {#if flattenedMaterials.length > 0}
                 <div class="w-full">
                   <div class="grid grid-cols-1 gap-4 md:hidden">
@@ -433,20 +447,25 @@
                     {#each flattenedMaterials as material}
                       <div class="bg-white rounded-lg shadow p-4">
                         <div class="flex items-center mb-3">
-                          {#if brands.find(b => b.nome === material.marca)}
-                            <img 
-                              src={brands.find(b => b.nome === material.marca).asset} 
-                              alt={material.marca} 
+                          {#if brands.find((b) => b.nome === material.marca)}
+                            <img
+                              src={brands.find((b) => b.nome === material.marca)
+                                .asset}
+                              alt={material.marca}
                               class="w-8 h-8 object-contain mr-2"
                             />
                           {/if}
                           <h3 class="font-bold text-lg">{material.marca}</h3>
                         </div>
                         <div class="grid grid-cols-2 gap-2">
-                          {#each Object.entries(material).filter(([key]) => key !== 'marca').sort() as [equipType, value]}
+                          {#each Object.entries(material)
+                            .filter(([key]) => key !== "marca")
+                            .sort() as [equipType, value]}
                             {#if value && value !== 0 && value !== "0"}
                               <div class="bg-blue-50 p-2 rounded">
-                                <span class="text-xs text-gray-600">{equipType}</span>
+                                <span class="text-xs text-gray-600"
+                                  >{equipType}</span
+                                >
                                 <p class="text-blue-600 font-medium">{value}</p>
                               </div>
                             {/if}
@@ -455,15 +474,20 @@
                       </div>
                     {/each}
                   </div>
-                  
+
                   <!-- Desktop view: Table layout -->
                   <div class="hidden md:block overflow-x-auto">
                     <table class="w-full border-collapse text-sm">
                       <thead>
-                        <tr class="bg-gray-100 ">
-                          <th class="text-left p-2 border text-center">Marca</th>
-                          {#each Object.keys(flattenedMaterials[0]).filter(key => key !== 'marca').sort() as equipType, i}
-                            <th class="text-center p-2 border whitespace-nowrap">
+                        <tr class="bg-gray-100">
+                          <th class="text-left p-2 border text-center">Marca</th
+                          >
+                          {#each Object.keys(flattenedMaterials[0])
+                            .filter((key) => key !== "marca")
+                            .sort() as equipType, i}
+                            <th
+                              class="text-center p-2 border whitespace-nowrap"
+                            >
                               <div title={equipType}>{equipType}</div>
                             </th>
                           {/each}
@@ -471,23 +495,28 @@
                       </thead>
                       <tbody>
                         {#each flattenedMaterials as material}
-                          <tr class="border hover:bg-gray-50 ">
+                          <tr class="border hover:bg-gray-50">
                             <td class="p-2 border font-medium">
                               <div class="flex items-center justify-center">
-                                {#if brands.find(b => b.nome === material.marca)}
-                                  <img 
-                                    src={brands.find(b => b.nome === material.marca).asset} 
-                                    alt={material.marca} 
+                                {#if brands.find((b) => b.nome === material.marca)}
+                                  <img
+                                    src={brands.find(
+                                      (b) => b.nome === material.marca,
+                                    ).asset}
+                                    alt={material.marca}
                                     class="w-6 h-6 object-contain mr-2 flex-shrink-0"
                                   />
                                 {/if}
-                                
                               </div>
                             </td>
-                            {#each Object.keys(material).filter(key => key !== 'marca').sort() as equipType}
+                            {#each Object.keys(material)
+                              .filter((key) => key !== "marca")
+                              .sort() as equipType}
                               <td class="p-2 border text-center">
                                 {#if material[equipType] && material[equipType] !== 0 && material[equipType] !== "0"}
-                                  <span class="text-blue-600 font-medium">{material[equipType]}</span>
+                                  <span class="text-blue-600 font-medium"
+                                    >{material[equipType]}</span
+                                  >
                                 {:else}
                                   <span class="text-gray-300">-</span>
                                 {/if}
@@ -649,8 +678,12 @@
     <Dialog.Content
       class="fixed left-[50%] top-[50%] max-h-[85vh] w-[90vw] max-w-[90vw] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-white p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none"
     >
-      <Dialog.Title class="text-xl font-semibold mb-4">{imageModalTitle}</Dialog.Title>
-      <div class="flex justify-center items-center max-h-[70vh] overflow-hidden">
+      <Dialog.Title class="text-xl font-semibold mb-4"
+        >{imageModalTitle}</Dialog.Title
+      >
+      <div
+        class="flex justify-center items-center max-h-[70vh] overflow-hidden"
+      >
         <img
           src={selectedImage}
           alt={imageModalTitle}
@@ -666,8 +699,19 @@
           }}
           class="flex items-center gap-2"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+            />
           </svg>
           Rotacionar 90°
         </Button>
@@ -679,8 +723,19 @@
           }}
           class="flex items-center gap-2"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
           </svg>
           Fechar
         </Button>
